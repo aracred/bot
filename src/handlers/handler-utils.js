@@ -14,10 +14,11 @@ function encodeData(decodedData) {
   return updatedContent.toString(BASE64_FORMAT)
 }
 
-function marshallUser({ username, platforms }) {
+function marshallAddressEntry({ name, address }) {
   return {
-    username,
-    aliases: platforms,
+    name,
+    createdAt: Date.now(),
+    address,
   }
 }
 
@@ -29,9 +30,17 @@ function marshallFileUpdate({ message, content, sha }) {
   })
 }
 
+function marshallUser({ username, platforms }) {
+  return {
+    username,
+    aliases: platforms,
+  }
+}
+
 module.exports = {
   decodeData,
   encodeData,
+  marshallAddressEntry,
   marshallFileUpdate,
   marshallUser,
 }

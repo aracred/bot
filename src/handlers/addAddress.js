@@ -4,22 +4,25 @@ const {
   decodeData,
   encodeData,
   marshallFileUpdate,
-  marshallUser,
+  marshallAddressEntry,
 } = require('./handler-utils')
-const parseSignup = require('../parser/signup')
+const parseAddAddress = require('../parser/addAddress')
 
 const GITHUB_API_URL = 'https://api.github.com'
 
 module.exports = function signup(message) {
   try {
-    const [username, platforms] = parseSignup(message.content)
+    const [username, address] = parseAddAddress(message.content)
 
-    fetch(`${GITHUB_API_URL}/repos/${environment('GITHUB_FILE_PATH')}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${environment('GITHUB_API_TOKEN')}`,
+    fetch(
+      `${GITHUB_API_URL}/repos/${environment('GITHUB_ADDRESS_FILE_PATH')}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${environment('GITHUB_API_TOKEN')}`,
+        },
       },
-    })
+    )
       .then(res => res.json())
       .then(body => {
         const encodedContent = body.content
@@ -30,35 +33,37 @@ module.exports = function signup(message) {
         const decodedContent = decodeData(encodedContent) // Manipulated the decoded content:
         // First, check if the user already exists.
         // If it does, stop the process inmediately.
-        const userExists = decodedContent[1].identities.find(
-          identity =>
-            identity.username.toLowerCase() === username.toLowerCase(),
+        const userExists = decodedContent.find(
+          identity => identity.name.toLowerCase() === username.toLowerCase(),
         )
 
         if (userExists) {
-          message.reply('You have already registered.')
+          message.reply('You have already registered your address.')
           return
         }
         // If the user is not registered, we can now proceed to mutate
         // the file by appending the user to the end of the array.
-        const userIdentity = marshallUser({ username, platforms })
-        decodedContent[1].identities.push(userIdentity)
+        const addressEntry = marshallAddressEntry({ name: username, address })
+        decodedContent.push(addressEntry)
         // We encode the updated content to base64.
         const updatedContent = encodeData(decodedContent)
         // We prepare the body to be sent to the API.
         const marshalledBody = marshallFileUpdate({
-          message: 'Update project.json',
+          message: 'Update addressbook.json',
           content: updatedContent,
           sha: fileSha,
         })
         // And we update the project.json file directly.
-        fetch(`${GITHUB_API_URL}/repos/${environment('GITHUB_FILE_PATH')}`, {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${environment('GITHUB_API_TOKEN')}`,
+        fetch(
+          `${GITHUB_API_URL}/repos/${environment('GITHUB_ADDRESS_FILE_PATH')}`,
+          {
+            method: 'PUT',
+            headers: {
+              Authorization: `Bearer ${environment('GITHUB_API_TOKEN')}`,
+            },
+            body: marshalledBody,
           },
-          body: marshalledBody,
-        }).then(() => message.reply('Updated project.json successfully'))
+        ).then(() => message.reply('Updated addressbook.json successfully'))
       })
       .catch(error => {
         console.error(error)
