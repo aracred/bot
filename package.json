@@ -1,17 +1,24 @@
 {
-  "name": "bot",
-  "version": "1.0.0",
-  "description": "",
+  "name": "AracredBot",
+  "version": "0.0.1",
+  "description": "Aracred Bot for quickly onboarding users into aracred through Discord",
+  "keywords": [
+    "discord",
+    "aragon",
+    "aracred",
+    "sourcecred"
+  ],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Aracred",
+  "license": "MIT",
   "dependencies": {
     "discord.js": "^12.1.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
