@@ -4,7 +4,6 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const detectHandler = require('./parser/detectHandler')
-const handlers = require('./handlers/index')
 const { log } = require('./utils')
 
 const client = new Discord.Client()
@@ -17,8 +16,9 @@ client.on('message', message => {
   if (message.author.bot) {
     return
   }
-  const requiredHandler = detectHandler(message.content)
-  const handler = handlers.get(requiredHandler)
+
+  const handler = detectHandler(message.content)
+
   if (typeof handler !== 'function') {
     log(`Could not recognize command: ${message.content}`)
     message.reply(
@@ -26,6 +26,7 @@ client.on('message', message => {
     )
     return
   }
+
   handler(message)
 })
 

@@ -5,7 +5,7 @@ const {
   encodeData,
   marshallFileUpdate,
   marshallUser,
-} = require('./handler-utils')
+} = require('../handler-utils')
 const parseSignup = require('../parser/signup')
 const { log } = require('../utils')
 

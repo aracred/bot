@@ -5,7 +5,7 @@ const {
   encodeData,
   marshallFileUpdate,
   marshallAddressEntry,
-} = require('./handler-utils')
+} = require('../handler-utils')
 const parseAddAddress = require('../parser/addAddress')
 
 const GITHUB_API_URL = 'https://api.github.com'

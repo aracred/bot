@@ -4,6 +4,12 @@ module.exports = function parseSignup(message) {
       `Parsing command failed, reason: wrong type passed in. Expected string, got ${typeof message}`,
     )
   }
+
+  if (message === '') {
+    throw new Error(
+      'Parsing command failed: reason: empty string provided as message',
+    )
+  }
   // Split the signup message by whitespace,
   // and remove the first item (!signup flag)
   const splitMessage = message.split(' ').slice(1)
@@ -32,6 +38,5 @@ module.exports = function parseSignup(message) {
     const sanitizedIdentifier = identifier.trim()
     return `${lowercasedPlatformName}/${sanitizedIdentifier}`
   })
-
   return [username, parsedPlatforms]
 }
