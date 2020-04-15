@@ -38,8 +38,7 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "npx eslint --fix",
-      "git add"
+      "npx eslint --fix"
     ]
   }
 }
