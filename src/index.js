@@ -5,20 +5,25 @@ dotenv.config()
 
 const detectHandler = require('./parser/detectHandler')
 const handlers = require('./handlers/index')
+const { log } = require('./utils')
 
 const client = new Discord.Client()
 
 client.on('ready', () => {
-  console.log(`Bot successfully started as ${client.user.tag}`)
+  log(`Bot successfully started as ${client.user.tag} 🦅`)
 })
 
 client.on('message', message => {
   const requiredHandler = detectHandler(message.content)
-  console.log(message.content)
   const handler = handlers.get(requiredHandler)
-  if (typeof handler === 'function') {
-    handler(message)
+  if (typeof handler !== 'function') {
+    log(`Could not recognize command: ${message.content}`)
+    message.reply(
+      'Command not recognized. Please check the parameters or use !help for more info.',
+    )
+    return
   }
+  handler(message)
 })
 
 client.login(process.env.DISCORD_API_TOKEN)
