@@ -14,6 +14,9 @@ client.on('ready', () => {
 })
 
 client.on('message', message => {
+  if (message.author.bot) {
+    return
+  }
   const requiredHandler = detectHandler(message.content)
   const handler = handlers.get(requiredHandler)
   if (typeof handler !== 'function') {
