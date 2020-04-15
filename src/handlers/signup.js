@@ -7,6 +7,7 @@ const {
   marshallUser,
 } = require('./handler-utils')
 const parseSignup = require('../parser/signup')
+const { log } = require('../utils')
 
 const GITHUB_API_URL = 'https://api.github.com'
 
@@ -24,7 +25,6 @@ module.exports = function signup(message) {
       .then(body => {
         const encodedContent = body.content
         const fileSha = body.sha
-
         // Decode the content from the Github API response, as
         // it's returned as a base64 string.
         const decodedContent = decodeData(encodedContent) // Manipulated the decoded content:
@@ -37,6 +37,7 @@ module.exports = function signup(message) {
 
         if (userExists) {
           message.reply('You have already registered.')
+          log(`Detected ${message.author.username} already exists with username ${username}`)
           return
         }
         // If the user is not registered, we can now proceed to mutate
