@@ -1,11 +1,18 @@
 const Discord = require('discord.js')
 const dotenv = require('dotenv')
+const Sentry = require('@sentry/node')
+const detectHandler = require('./parser/detectHandler')
+const {
+  RequestHandlerError,
+  WhitelistedChannelError,
+} = require('./parser/error-utils')
+const { environment } = require('./environment')
+const { error, log } = require('./utils')
+const parseWhitelistedChannels = require('./parser/whitelistedChannels')
+
 // Load this as early as possible, to init all the environment variables that may be needed
 dotenv.config()
-
-const detectHandler = require('./parser/detectHandler')
-const { log } = require('./utils')
-const parseWhitelistedChannels = require('./parser/whitelistedChannels')
+Sentry.init({ dsn: environment('SENTRY_DSN') })
 
 const client = new Discord.Client()
 
@@ -17,29 +24,33 @@ client.on('message', message => {
   if (message.author.bot) {
     return
   }
+  try {
+    const whitelistedChannels = parseWhitelistedChannels()
 
-  const whitelistedChannels = parseWhitelistedChannels()
-
-  const messageWhitelisted = whitelistedChannels.reduce(
-    (whitelisted, channel) => (channel === message.channel.name) || whitelisted,
-    false,
-  )
-
-  if (!messageWhitelisted) {
-    return
-  }
-
-  const handler = detectHandler(message.content)
-
-  if (typeof handler !== 'function') {
-    log(`Could not recognize command: ${message.content}`)
-    message.reply(
-      'Command not recognized. Please check the parameters or use !help for more info.',
+    const messageWhitelisted = whitelistedChannels.reduce(
+      (whitelisted, channel) => channel === message.channel.name || whitelisted,
+      false,
     )
-    return
-  }
 
-  handler(message)
+    if (!messageWhitelisted) {
+      return
+    }
+
+    const handler = detectHandler(message.content)
+    handler(message)
+    log(
+      `Served command ${message.content} successfully for ${message.author.username}`,
+    )
+  } catch (err) {
+    if (err instanceof RequestHandlerError) {
+      message.reply(
+        'Could not find the requested command. Please use !help for more info.',
+      )
+    } else if (err instanceof WhitelistedChannelError) {
+      error('FATAL: No whitelisted channels set in the environment variables.')
+    }
+    Sentry.captureException(err)
+  }
 })
 
 client.login(process.env.DISCORD_API_TOKEN)

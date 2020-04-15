@@ -7,6 +7,7 @@ const {
   marshallAddressEntry,
 } = require('../handler-utils')
 const parseAddAddress = require('../parser/addAddress')
+const { error, log } = require('../utils')
 
 const GITHUB_API_URL = 'https://api.github.com'
 
@@ -27,7 +28,9 @@ module.exports = function signup(message) {
       .then(body => {
         const encodedContent = body.content
         const fileSha = body.sha
-
+        log(
+          `fetched file with sha ${fileSha} for user ${message.author.username}`,
+        )
         // Decode the content from the Github API response, as
         // it's returned as a base64 string.
         const decodedContent = decodeData(encodedContent) // Manipulated the decoded content:
@@ -39,6 +42,9 @@ module.exports = function signup(message) {
 
         if (userExists) {
           message.reply('You have already registered your address.')
+          log(
+            `Detected ${message.author.username} already exists with username ${username}`,
+          )
           return
         }
         // If the user is not registered, we can now proceed to mutate
@@ -63,16 +69,19 @@ module.exports = function signup(message) {
             },
             body: marshalledBody,
           },
-        ).then(() => message.reply('Updated addressbook.json successfully'))
+        ).then(() => {
+          log('Updated file on Github successfully.')
+          message.reply('Updated addressbook.json successfully')
+        })
       })
-      .catch(error => {
-        console.error(error)
+      .catch(err => {
+        error(err)
         message.reply(
           'Something went wrong while executing the command. Please try again in a few minutes.',
         )
       })
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    log(error)
     message.reply(
       'Command parsing failed. Please use the !help command to see how to use the requested command properly.',
     )
