@@ -5,6 +5,7 @@ dotenv.config()
 
 const detectHandler = require('./parser/detectHandler')
 const { log } = require('./utils')
+const parseWhitelistedChannels = require('./parser/whitelistedChannels')
 
 const client = new Discord.Client()
 
@@ -14,6 +15,17 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.author.bot) {
+    return
+  }
+
+  const whitelistedChannels = parseWhitelistedChannels()
+
+  const messageWhitelisted = whitelistedChannels.reduce(
+    (whitelisted, channel) => (channel === message.channel.name) || whitelisted,
+    false,
+  )
+
+  if (!messageWhitelisted) {
     return
   }
 
