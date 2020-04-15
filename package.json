@@ -12,7 +12,8 @@
   "scripts": {
     "lint": "npx eslint ./src",
     "test": "npx jest",
-    "start": "nodemon src/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "author": "Aracred",
   "license": "MIT",
