@@ -6,11 +6,15 @@ describe('detectHandler', () => {
     expect(detectHandler('!signup')).toEqual(handlers.get('!signup'))
   })
 
-  test('it should fail and return the help handler on empty strings', () => {
-    expect(detectHandler('')).toBeNull()
+  test('it should ignore empty strings', () => {
+    expect(detectHandler('')).toEqual(undefined)
   })
 
-  test('it should fail on correct handlers supplied without the ! prefix', () => {
-    expect(detectHandler('signup')).toBeNull()
+  test('it should ignore random messages', () => {
+    expect(detectHandler('signup')).toEqual(undefined)
+  })
+
+  test('it should throw on unrecognized commands', () => {
+    expect(() => detectHandler('!mafz')).toThrow(/flag/)
   })
 })

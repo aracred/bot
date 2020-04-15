@@ -1,15 +1,21 @@
+const { RequestHandlerError } = require('./error-utils')
 const handlers = require('../handlers/index')
-const { log } = require('../utils')
+
+const noop = () => undefined
 
 module.exports = function detectHandler(message) {
   const requestedHandler = message.split(' ').shift()
+  // If it's not a flag, we can safely ignore this command.
+  if (!requestedHandler.includes('!')) {
+    return noop()
+  }
+
   const receivedHandler = handlers.get(requestedHandler)
 
   if (typeof receivedHandler !== 'function') {
-    log(
-      `Couldn't get ${requestedHandler}. This handler probably does not exist.`,
+    throw new RequestHandlerError(
+      `Could not find command with flag ${requestedHandler}`,
     )
-    return null
   }
 
   return receivedHandler
