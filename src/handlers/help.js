@@ -3,7 +3,7 @@ Available AracredBot commands:
 
 - !addaddress <username> <address> -> Registers the user with username <username> and ethereum address <address> to the addressbook.json file. Example:
 
-> !addaddress foo /0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+> !addaddress foo 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
 
 - !help -> This command.
 
