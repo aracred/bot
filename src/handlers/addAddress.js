@@ -70,8 +70,8 @@ module.exports = function signup(message) {
             body: marshalledBody,
           },
         ).then(() => {
-          log('Updated file on Github successfully.')
-          message.reply('Updated addressbook.json successfully')
+          log('Updated file on GitHub successfully.')
+          message.reply('Updated the address book successfully!')
         })
       })
       .catch(err => {

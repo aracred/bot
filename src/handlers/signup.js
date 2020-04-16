@@ -65,8 +65,8 @@ module.exports = function signup(message) {
           },
           body: marshalledBody,
         }).then(() => {
-          log('Updated file on Github successfully.')
-          message.reply('Updated project.json successfully')
+          log('Updated file on GitHub successfully.')
+          message.reply('Update was successful!')
         })
       })
       .catch(err => {
