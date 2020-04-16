@@ -3,7 +3,7 @@ const handlers = require('../handlers/index')
 
 describe('detectHandler', () => {
   test('it should properly parse a command name', () => {
-    expect(detectHandler('!signup')).toEqual(handlers.get('!signup'))
+    expect(detectHandler('!ac signup')).toEqual(handlers.get('signup'))
   })
 
   test('it should ignore empty strings', () => {
@@ -15,6 +15,6 @@ describe('detectHandler', () => {
   })
 
   test('it should throw on unrecognized commands', () => {
-    expect(() => detectHandler('!mafz')).toThrow(/flag/)
+    expect(() => detectHandler('!ac mafz')).toThrow(/flag/)
   })
 })
