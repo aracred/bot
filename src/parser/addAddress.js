@@ -1,3 +1,5 @@
+const { validateAddress } = require('../web3-utils')
+
 module.exports = function parseAddAddress(message) {
   if (typeof message !== 'string') {
     throw new Error(
@@ -27,6 +29,12 @@ module.exports = function parseAddAddress(message) {
   }
 
   const [username, address] = splitMessage
+
+  if (!validateAddress(address)) {
+    throw new Error(
+      'Parsing command failed, reason: ethereum address is not valid.',
+    )
+  }
 
   return [username, address]
 }
