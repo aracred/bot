@@ -1,3 +1,7 @@
+/*
+ * Implementation from web3.js (https://github.com/ethereum/web3.js/blob/master/lib/utils/utils.js)
+ */
+
 const CryptoJS = require('crypto-js')
 const sha3lib = require('crypto-js/sha3')
 
