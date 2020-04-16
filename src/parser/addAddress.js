@@ -30,7 +30,7 @@ module.exports = function parseAddAddress(message) {
 
   const [username, address] = splitMessage
 
-  if (validateAddress(address) != true) {
+  if (!validateAddress(address)) {
     throw new Error(
       'Parsing command failed, reason: ethereum address is not valid.',
     )
