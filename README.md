@@ -25,12 +25,13 @@ There are a few other scripts provided:
 
 ### Configuration
 
-For the bot to run properly, it needs the variables laid out in the `.env.sample` file:
+For the bot to run properly, it needs these variables, laid out in the `.env.sample` file:
 
 - `DISCORD_API_TOKEN`: Your discord API token. [See this guide on how to obtain one](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token).
 - `GITHUB_API_TOKEN`: Your github API token. _This will tie the bot's contributions to your profile_.
 - `GITHUB_FILE_PATH`: The "file path" to the `project.json` folder, laid out with the format described [here](https://developer.github.com/v3/repos/contents/#create-or-update-a-file).
 - `GITHUB_ADDRESS_FILE_PATH`: The "file path" to the `addressbook.json` folder, laid out with the format described [here](https://developer.github.com/v3/repos/contents/#create-or-update-a-file).
+- `WHITELISTED_CHANNELS`: The whitelisted channels for the bot to read messages from, in the form of comma separated words, as in `bot,general,channel`.
 
 ### Deployment
 
