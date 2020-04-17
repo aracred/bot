@@ -32,7 +32,7 @@ client.on('message', message => {
       false,
     )
 
-    if (!messageWhitelisted) {
+    if (!messageWhitelisted && whitelistedChannels) {
       return
     }
 
