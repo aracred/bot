@@ -5,9 +5,9 @@ Available AracredBot commands:
 
 > !ac addaddress foo 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
 
-- !ac help -> This command.
+- !ac help → This command.
 
-- !ac signup <username> <platform1/username> <platform2/username>... -> Registers the user with username <username> with platforms <platform1/username> <platform2/username>... to be able to gain cred. Supported platforms: github, discord, discourse. For linking discord, you'll need to put your Discord ID. Example:
+- !ac signup <username> <platform1/username> <platform2/username>... → Registers the user with username <username> with platforms <platform1/username> <platform2/username>... to be able to gain cred. Supported platforms: github, discord, discourse. For linking discord, you'll need to put your Discord ID. Example:
 
 > !ac signup foo github/foo discord/DISCORD_ID discourse/foo
 
