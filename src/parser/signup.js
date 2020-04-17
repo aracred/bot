@@ -11,8 +11,8 @@ module.exports = function parseSignup(message) {
     )
   }
   // Split the signup message by whitespace,
-  // and remove the first item (!signup flag)
-  const splitMessage = message.split(' ').slice(1)
+  // and remove the first two items (!ac signup flag)
+  const splitMessage = message.split(' ').slice(2)
   if (splitMessage.length === 0) {
     throw new Error(
       'Parsing command failed, reason: no arguments were provided',

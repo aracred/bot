@@ -13,7 +13,7 @@ describe('addAddress handler tests', () => {
   test('It should properly pass a well formed message', () =>
     expect(
       parseAddAddress(
-        '!addaddress foo 0x960b236A07cf122663c4303350609A66A7B288C0',
+        '!ac addaddress foo 0x960b236A07cf122663c4303350609A66A7B288C0',
       ),
     ).toEqual(['foo', '0x960b236A07cf122663c4303350609A66A7B288C0']))
 })

@@ -5,11 +5,14 @@ describe('signup parameters parser 📝', () => {
     expect(() => parseSignup('')).toThrow(/empty/))
 
   test('It throws if no arguments are provided', () =>
-    expect(() => parseSignup('!signup')).toThrow(/arguments/))
+    expect(() => parseSignup('!ac signup')).toThrow(/arguments/))
 
   test('It throws if not enough arguments are provided', () =>
-    expect(() => parseSignup('!signup foo')).toThrow(/enough/))
+    expect(() => parseSignup('!ac signup foo')).toThrow(/enough/))
 
   test('It properly parses and returns the parameters for signup', () =>
-    expect(parseSignup('!signup foo github/foo')).toEqual(['foo', ['github/foo']]))
+    expect(parseSignup('!ac signup foo github/foo')).toEqual([
+      'foo',
+      ['github/foo'],
+    ]))
 })
