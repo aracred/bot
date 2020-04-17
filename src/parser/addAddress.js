@@ -13,8 +13,8 @@ module.exports = function parseAddAddress(message) {
     )
   }
   // Split the signup message by whitespace,
-  // and remove the first item (!addaddress flag)
-  const splitMessage = message.split(' ').slice(1)
+  // and remove the two items (!ac addaddress flag)
+  const splitMessage = message.split(' ').slice(2)
 
   if (splitMessage.length < 2) {
     throw new Error(
