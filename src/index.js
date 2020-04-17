@@ -44,7 +44,7 @@ client.on('message', message => {
   } catch (err) {
     if (err instanceof RequestHandlerError) {
       message.reply(
-        'Could not find the requested command. Please use !help for more info.',
+        'Could not find the requested command. Please use !ac help for more info.',
       )
     } else if (err instanceof WhitelistedChannelError) {
       error('FATAL: No whitelisted channels set in the environment variables.')

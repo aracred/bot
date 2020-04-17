@@ -5,13 +5,13 @@
 
 ## Quick end-user guide 🦅
 
-Interacting with the bot is simple; it offers 3 commands:
+Interacting with the bot is simple; it offers 3 commands, all of them starting with the !ac flag:
 
-- "!help": Shows the available commands, along with an example for each one.
+- "!ac help": Shows the available commands, along with an example for each one.
 
-- "!signup": Signs the user up for generating cred through their contributions, by modifying the `project.json` file in the configured Aracred repo.
+- "!ac signup": Signs the user up for generating cred through their contributions, by modifying the `project.json` file in the configured Aracred repo.
 
-- "!addaddress": Signs the user up for receiving tokens minted to match their generated cred, by modifying the `addressbook.json` file in the configured Aracred repo.
+- "!ac addaddress": Signs the user up for receiving tokens minted to match their generated cred, by modifying the `addressbook.json` file in the configured Aracred repo.
 
 ## Developer quick start 👩‍💻
 
@@ -44,4 +44,3 @@ You'll need a service to host this bot 💆‍♀️ but do not despair! There's
 ### Contributing
 
 Don't be shy to contribute even the smallest tweak. 🐲 There are still some dragons to be aware of, but we'll be here to help you get started!
-
