@@ -4,20 +4,17 @@ const handlers = require('../handlers/index')
 const noop = () => undefined
 
 module.exports = function detectHandler(message) {
-  const requestedNamespace = message.split(' ')[0]
-  let requestedHandler = message.split(' ')[1]
+  const [requestedNamespace, requestedHandler] = message.split(' ')
   // If it's not a flag, we can safely ignore this command.
   if (!requestedNamespace.includes('!')) {
     return noop()
   }
-  let receivedHandler
-  requestedNamespace === '!ac'
-    ? (receivedHandler = handlers.get(requestedHandler))
-    : () => {
-      throw new RequestHandlerError(
-        `Could not find command with namespace ${requestedNamespace}`,
-      )
-    }
+  const receivedHandler = handlers.get(requestedHandler)
+  if (requestedNamespace !== '!ac') {
+    throw new RequestHandlerError(
+      `Could not find command with flag ${requestedNamespace}`,
+    )
+  }
 
   if (typeof receivedHandler !== 'function') {
     throw new RequestHandlerError(
