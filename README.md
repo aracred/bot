@@ -1,11 +1,16 @@
+![Aracred](https://github.com/aracred/bot/workflows/CI/badge.svg)
+
 # bot
 
 :robot: Aracred Bot to quickly onboard users into an Aracred instance. Don't be afraid to fork and modify this!
 
-![Aracred](https://github.com/aracred/bot/workflows/CI/badge.svg)
+## Quickstart
+
 <a href="https://heroku.com/deploy?template=https://github.com/aracred/bot">
 <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
 </a>
+
+^^ Click here to deploy!
 
 ## Quick end-user guide 🦅
 
