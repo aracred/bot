@@ -41,7 +41,7 @@ For the bot to run properly, it needs these variables, laid out in the `.env.sam
 
 You'll need a service to host this bot 💆‍♀️ but do not despair! There's an easy, already configured way of doing this by deploying it to heroku! Just go through these steps:
 
-- Create a new heroku app and link it to github
+- Create a new Heroku app and link it to GitHub
 - Search for the repo and connect it
 - Enable "automatic deploys" for the app
 - BONUS: If you want to be able to run this bot 24/7, you can add link your billing info to Heroku, and will give you a 1000 hours for free, enough for a bot instance.
