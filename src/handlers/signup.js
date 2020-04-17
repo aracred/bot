@@ -78,7 +78,7 @@ module.exports = function signup(message) {
   } catch (err) {
     log(err)
     message.reply(
-      'Command parsing failed. Please use the !help command to see how to use the requested command properly.',
+      'Command parsing failed. Please use the !ac help command to see how to use the requested command properly.',
     )
   }
 }
