@@ -13,6 +13,6 @@ describe('signup parameters parser 📝', () => {
   test('It properly parses and returns the parameters for signup', () =>
     expect(parseSignup('!ac signup foo github/foo')).toEqual([
       'foo',
-      ['github/foo'],
+      ['github/foo', 'discord/undefined'],
     ]))
 })
