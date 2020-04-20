@@ -1,10 +1,16 @@
 module.exports = function parseSignup(message, discordId) {
+  
+  if (typeof discordId === 'undefined') {
+    throw new Error(
+      `Parsing command failed: reason: no Discord ID gathered from message, got ${discordId}`,
+    )
+  }
+  
   if (typeof message !== 'string') {
     throw new Error(
       `Parsing command failed, reason: wrong type passed in. Expected string, got ${typeof message}`,
     )
   }
-
   if (message === '') {
     throw new Error(
       'Parsing command failed: reason: empty string provided as message',
