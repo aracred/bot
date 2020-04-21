@@ -7,9 +7,9 @@ Available AracredBot commands:
 
 - !ac help → This command.
 
-- !ac signup <username> <platform1/username> <platform2/username>... → Registers the user with username <username> with platforms <platform1/username> <platform2/username>... to be able to gain cred. Supported platforms: github, discord, discourse. For linking discord, you'll need to put your Discord ID. Example:
+- !ac signup <username> <platform1/username> <platform2/username>... → Registers the user with username <username> with platforms <platform1/username> <platform2/username>... to be able to gain cred. Supported platforms: github, discourse and discord. NOTE: Discord will be linked to your username automatically. 
 
-> !ac signup foo github/foo discord/DISCORD_ID discourse/foo
+> !ac signup foo github/foo discourse/foo
 
 `
 
