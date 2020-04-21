@@ -15,7 +15,7 @@ module.exports = function signup(message) {
   try {
     const [username, platforms] = parseSignup(
       message.content,
-      message.member.id,
+      message.author.id,
     )
 
     fetch(`${GITHUB_API_URL}/repos/${environment('GITHUB_FILE_PATH')}`, {
