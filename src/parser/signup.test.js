@@ -1,6 +1,6 @@
 const parseSignup = require('./signup')
 
-const discordId = '474405294307278880'
+const discordId = '123456789098765432'
 
 describe('signup parameters parser 📝', () => {
   test('It errors on empty strings', () =>

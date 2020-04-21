@@ -1,5 +1,7 @@
 module.exports = function parseSignup(message, discordId) {
   
+  // This discordId comes directly from the author of the message (discord.js)
+  // Therefore, only two things can happen: get a valid ID or get 'undefined'.
   if (typeof discordId === 'undefined') {
     throw new Error(
       `Parsing command failed: reason: no Discord ID gathered from message, got ${discordId}`,
