@@ -1,4 +1,4 @@
-const { RequestHandlerError } = require('./error-utils')
+const { RequestHandlerError } = require('../error-utils')
 const handlers = require('../handlers/index')
 
 const noop = () => undefined

@@ -5,7 +5,7 @@ const detectHandler = require('./parser/detectHandler')
 const {
   RequestHandlerError,
   WhitelistedChannelError,
-} = require('./parser/error-utils')
+} = require('./error-utils')
 const { environment } = require('./environment')
 const { error, log } = require('./utils')
 const parseWhitelistedChannels = require('./parser/whitelistedChannels')
@@ -28,7 +28,8 @@ client.on('message', message => {
     const whitelistedChannels = parseWhitelistedChannels()
 
     const messageWhitelisted = whitelistedChannels.reduce(
-      (whitelisted, channel) => channel === message.channel.name || whitelisted,
+      (whitelisted, channel) =>
+        channel === message.channel.name || channel === '*' || whitelisted,
       false,
     )
 
