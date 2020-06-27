@@ -14,11 +14,12 @@ function encodeData(decodedData) {
   return updatedContent.toString(BASE64_FORMAT)
 }
 
-function marshallAddressEntry({ name, address }) {
+function marshallAddressEntry({ name, address, discordId }) {
   return {
     name,
     createdAt: Date.now(),
     address,
+    discordId
   }
 }
 

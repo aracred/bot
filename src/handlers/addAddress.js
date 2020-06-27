@@ -11,9 +11,11 @@ const { error, log } = require('../utils')
 
 const GITHUB_API_URL = 'https://api.github.com'
 
-module.exports = function signup(message) {
+module.exports = function addAddress(message) {
   try {
-    const [username, address] = parseAddAddress(message.content)
+    const address = parseAddAddress(message.content)
+    const name = message.author.username
+    const discordId = message.author.id
 
     fetch(
       `${GITHUB_API_URL}/repos/${environment('GITHUB_ADDRESS_FILE_PATH')}`,
@@ -29,7 +31,7 @@ module.exports = function signup(message) {
         const encodedContent = body.content
         const fileSha = body.sha
         log(
-          `fetched file with sha ${fileSha} for user ${message.author.username}`,
+          `fetched file with sha ${fileSha} for user ${name}`,
         )
         // Decode the content from the Github API response, as
         // it's returned as a base64 string.
@@ -37,19 +39,19 @@ module.exports = function signup(message) {
         // First, check if the user already exists.
         // If it does, stop the process inmediately.
         const userExists = decodedContent.find(
-          identity => identity.name.toLowerCase() === username.toLowerCase(),
+          identity => identity.discordId.toLowerCase() === discordId.toLowerCase(),
         )
 
         if (userExists) {
           message.reply('You have already registered your address.')
           log(
-            `Detected ${message.author.username} already exists with username ${username}`,
+            `Detected ID ${discordId} already exists for user ${name}`,
           )
           return
         }
         // If the user is not registered, we can now proceed to mutate
         // the file by appending the user to the end of the array.
-        const addressEntry = marshallAddressEntry({ name: username, address })
+        const addressEntry = marshallAddressEntry({ name, address, discordId })
         decodedContent.push(addressEntry)
         // We encode the updated content to base64.
         const updatedContent = encodeData(decodedContent)

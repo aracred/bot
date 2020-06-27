@@ -13,22 +13,22 @@ module.exports = function parseAddAddress(message) {
     )
   }
   // Split the signup message by whitespace,
-  // and remove the two items (!ac addaddress flag)
+  // and remove the two items (!ac addaddress)
   const splitMessage = message.split(' ').slice(2)
 
-  if (splitMessage.length < 2) {
+  if (splitMessage.length < 1) {
     throw new Error(
       'Parsing command failed, reason: too few arguments were provided',
     )
   }
 
-  if (splitMessage.length > 2) {
+  if (splitMessage.length > 1) {
     throw new Error(
       'Parsing command failed, reason: too many arguments provided',
     )
   }
 
-  const [username, address] = splitMessage
+  const address = splitMessage[0]
 
   if (!validateAddress(address)) {
     throw new Error(
@@ -36,5 +36,5 @@ module.exports = function parseAddAddress(message) {
     )
   }
 
-  return [username, address]
+  return address
 }

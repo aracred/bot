@@ -8,12 +8,12 @@ describe('addAddress handler tests', () => {
     expect(() => parseAddAddress('')).toThrow(/empty/))
 
   test('It should error if not enough arguments are provided', () =>
-    expect(() => parseAddAddress('!addaddress foo')).toThrow(/arguments/))
+    expect(() => parseAddAddress('!ac addaddress')).toThrow(/arguments/))
 
   test('It should properly pass a well formed message', () =>
     expect(
       parseAddAddress(
-        '!ac addaddress foo 0x960b236A07cf122663c4303350609A66A7B288C0',
+        '!ac addaddress 0x960b236A07cf122663c4303350609A66A7B288C0',
       ),
-    ).toEqual(['foo', '0x960b236A07cf122663c4303350609A66A7B288C0']))
+    ).toEqual('0x960b236A07cf122663c4303350609A66A7B288C0'))
 })
