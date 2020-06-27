@@ -1,6 +1,6 @@
 module.exports = function parseSignup(message) {
   
-  const { contents, author: { id: discordId } } = message
+  const { content, author: { id: discordId } } = message
   
   // This discordId comes directly from the author of the message (discord.js)
   // Therefore, only two things can happen: get a valid ID or get 'undefined'.
@@ -10,19 +10,19 @@ module.exports = function parseSignup(message) {
     )
   }
   
-  if (typeof contents !== 'string') {
+  if (typeof content !== 'string') {
     throw new Error(
-      `Parsing command failed, reason: wrong type passed in. Expected string, got ${typeof contents}`,
+      `Parsing command failed, reason: wrong type passed in. Expected string, got ${typeof content}`,
     )
   }
-  if (contents === '') {
+  if (content === '') {
     throw new Error(
       'Parsing command failed: reason: empty string provided as message',
     )
   }
   // Split the signup message by whitespace,
   // and remove the first two items (!ac signup flag)
-  const unparsedPlatforms = contents.split(' ').slice(2)
+  const unparsedPlatforms = content.split(' ').slice(2)
   if (unparsedPlatforms.length === 0) {
     throw new Error(
       'Parsing command failed, reason: no arguments were provided',
