@@ -14,7 +14,7 @@ const GITHUB_API_URL = 'https://api.github.com'
 module.exports = function signup(message) {
   try {
     const userId = message.author.id
-    const username = message.author.name
+    const username = message.author.username
     
     const platforms = parseSignup(message)
 
