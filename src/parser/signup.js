@@ -1,4 +1,6 @@
-module.exports = function parseSignup(message, discordId) {
+module.exports = function parseSignup(message) {
+  
+  const { contents, author: { id: discordId } } = message
   
   // This discordId comes directly from the author of the message (discord.js)
   // Therefore, only two things can happen: get a valid ID or get 'undefined'.
@@ -8,35 +10,31 @@ module.exports = function parseSignup(message, discordId) {
     )
   }
   
-  if (typeof message !== 'string') {
+  if (typeof contents !== 'string') {
     throw new Error(
-      `Parsing command failed, reason: wrong type passed in. Expected string, got ${typeof message}`,
+      `Parsing command failed, reason: wrong type passed in. Expected string, got ${typeof contents}`,
     )
   }
-  if (message === '') {
+  if (contents === '') {
     throw new Error(
       'Parsing command failed: reason: empty string provided as message',
     )
   }
   // Split the signup message by whitespace,
   // and remove the first two items (!ac signup flag)
-  const splitMessage = message.split(' ').slice(2)
-  if (splitMessage.length === 0) {
+  const unparsedPlatforms = contents.split(' ').slice(2)
+  if (unparsedPlatforms.length === 0) {
     throw new Error(
       'Parsing command failed, reason: no arguments were provided',
     )
   }
 
-  if (splitMessage.length < 2) {
+  if (unparsedPlatforms.length < 1) {
     throw new Error(
-      'Parsing command failed, reason: not enough arguments. Expecting a minimum of two: the username and a platform alias.',
+      'Parsing command failed, reason: not enough arguments. Expecting a platform alias.',
     )
   }
-
-  const [username, ...unparsedPlatforms] = splitMessage
-  if (username.includes('/')) {
-    throw new Error('Parsing command failed, reason: username not provided.')
-  }
+  
   // As we're expecting the format to be of the type
   // PLATFORM/IDENTIFIER, we now parse each string, splitting
   // by the / separator, lowercase the platform, and re-joining strings
@@ -51,5 +49,5 @@ module.exports = function parseSignup(message, discordId) {
 
   parsedPlatforms.push(`discord/${discordId}`)
 
-  return [username, parsedPlatforms]
+  return parsedPlatforms
 }
