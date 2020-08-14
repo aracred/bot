@@ -9,6 +9,7 @@ const {
 const { environment } = require('./environment')
 const { error, log } = require('./utils')
 const parseWhitelistedChannels = require('./parser/whitelistedChannels')
+const parseWhitelistedRoles = require('./parser/whitelistedRoles')
 
 // Load this as early as possible, to init all the environment variables that may be needed
 dotenv.config()
@@ -26,6 +27,7 @@ client.on('message', message => {
   }
   try {
     const whitelistedChannels = parseWhitelistedChannels()
+    const whitelistedRoles = parseWhitelistedRoles()
 
     const messageWhitelisted = whitelistedChannels.reduce(
       (whitelisted, channel) =>
@@ -34,6 +36,19 @@ client.on('message', message => {
     )
 
     if (!messageWhitelisted && whitelistedChannels) {
+      return
+    }
+
+    const roleWhitelisted = whitelistedRoles.reduce(
+      (whitelisted, role) =>
+        message.member.roles.find('name', role) || role === '*' || whitelisted,
+      false,
+    )
+
+    if (!roleWhitelisted && whitelistedRoles) {
+      message.reply(
+        'Your role level is not high enough to access this bot',
+      )
       return
     }
 
