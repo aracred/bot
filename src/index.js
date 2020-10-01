@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const Sentry = require('@sentry/node')
 const detectHandler = require('./parser/detectHandler')
 const {
+  RequestHandlerError,
   WhitelistedChannelError,
 } = require('./error-utils')
 const { environment } = require('./environment')
@@ -21,6 +22,7 @@ client.on('ready', () => {
 })
 
 client.on('message', message => {
+  const isCommand = message.content.split(' ')[0] === '!she'
   if (message.author.bot) {
     return
   }
@@ -44,8 +46,7 @@ client.on('message', message => {
         whitelisted,
       false,
     )
-
-    if (!roleWhitelisted && whitelistedRoles) {
+    if (!roleWhitelisted && whitelistedRoles && isCommand) {
       message.reply('Your role level is not high enough to access this bot')
       return
     }
@@ -56,7 +57,11 @@ client.on('message', message => {
       `Served command ${message.content} successfully for ${message.author.username}`,
     )
   } catch (err) {
-    if (err instanceof WhitelistedChannelError) {
+    if (err instanceof RequestHandlerError && isCommand) {
+      message.reply(
+        'Could not find the requested command. Please use !ac help for more info.',
+      )
+    } else if (err instanceof WhitelistedChannelError) {
       error('FATAL: No whitelisted channels set in the environment variables.')
     }
     Sentry.captureException(err)

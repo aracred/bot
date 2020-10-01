@@ -13,7 +13,7 @@ module.exports = function parseAddAddress(message) {
     )
   }
   // Split the signup message by whitespace,
-  // and remove the two items (!ac addaddress)
+  // and remove the two items (!she addaddress)
   const splitMessage = message.split(' ').slice(2)
 
   if (splitMessage.length < 1) {
@@ -29,6 +29,7 @@ module.exports = function parseAddAddress(message) {
   }
 
   const address = splitMessage[0]
+  console.log('address: ', address)
 
   if (!validateAddress(address)) {
     throw new Error(
