@@ -13,11 +13,6 @@ const ENV_VARS = {
     'YOUR_GITHUB_API_TOKEN',
     true,
   ],
-  GITHUB_FILE_PATH: [
-    process.env.GITHUB_FILE_PATH,
-    '<username>/<repo>/contents/<path_to_project.json>/project.json',
-    true,
-  ],
   GITHUB_ADDRESS_FILE_PATH: [
     process.env.GITHUB_ADDRESS_FILE_PATH,
     '<username>/<repo>/contents/<path_to_addressbook.json>/addressbook.json',

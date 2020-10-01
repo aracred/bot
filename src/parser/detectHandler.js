@@ -10,7 +10,7 @@ module.exports = function detectHandler(message) {
     return noop()
   }
   const receivedHandler = handlers.get(requestedHandler)
-  if (requestedNamespace !== '!ac') {
+  if (requestedNamespace !== '!she') {
     throw new RequestHandlerError(
       `Could not find command with flag ${requestedNamespace}`,
     )
