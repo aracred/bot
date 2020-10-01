@@ -3,7 +3,6 @@ const dotenv = require('dotenv')
 const Sentry = require('@sentry/node')
 const detectHandler = require('./parser/detectHandler')
 const {
-  RequestHandlerError,
   WhitelistedChannelError,
 } = require('./error-utils')
 const { environment } = require('./environment')
@@ -18,7 +17,7 @@ Sentry.init({ dsn: environment('SENTRY_DSN') })
 const client = new Discord.Client()
 
 client.on('ready', () => {
-  log(`Bot successfully started as ${client.user.tag} 🦅`)
+  log(`Bot successfully started as ${client.user.tag}`)
 })
 
 client.on('message', message => {
@@ -28,6 +27,7 @@ client.on('message', message => {
   try {
     const whitelistedChannels = parseWhitelistedChannels()
     const whitelistedRoles = parseWhitelistedRoles()
+
     const messageWhitelisted = whitelistedChannels.reduce(
       (whitelisted, channel) =>
         channel === message.channel.name || channel === '*' || whitelisted,
@@ -37,11 +37,13 @@ client.on('message', message => {
     if (!messageWhitelisted && whitelistedChannels) {
       return
     }
-
-    const roleWhitelisted = whitelistedRoles.reduce((whitelisted, role) => {
-      message.member.roles.find('name', role) || role === '*' || whitelisted,
-      false
-    })
+    const roleWhitelisted = whitelistedRoles.reduce(
+      (whitelisted, role) =>
+        message.member.roles.cache.find(r => role === r.name) ||
+        role === '*' ||
+        whitelisted,
+      false,
+    )
 
     if (!roleWhitelisted && whitelistedRoles) {
       message.reply('Your role level is not high enough to access this bot')
@@ -54,11 +56,7 @@ client.on('message', message => {
       `Served command ${message.content} successfully for ${message.author.username}`,
     )
   } catch (err) {
-    if (err instanceof RequestHandlerError) {
-      message.reply(
-        'Could not find the requested command. Please use !ac help for more info.',
-      )
-    } else if (err instanceof WhitelistedChannelError) {
+    if (err instanceof WhitelistedChannelError) {
       error('FATAL: No whitelisted channels set in the environment variables.')
     }
     Sentry.captureException(err)

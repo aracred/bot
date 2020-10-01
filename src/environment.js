@@ -35,8 +35,8 @@ function environment(name) {
       `The environment variable with name ${name} has not been set properly. Please edit it on the heroku config vars.`,
     )
   }
-
   return envVar[0] === undefined ? envVar[1] : envVar[0].trim()
+  
 }
 
 function fullEnvironment() {}
