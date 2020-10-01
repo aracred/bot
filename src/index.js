@@ -28,7 +28,6 @@ client.on('message', message => {
   try {
     const whitelistedChannels = parseWhitelistedChannels()
     const whitelistedRoles = parseWhitelistedRoles()
-
     const messageWhitelisted = whitelistedChannels.reduce(
       (whitelisted, channel) =>
         channel === message.channel.name || channel === '*' || whitelisted,
@@ -39,16 +38,13 @@ client.on('message', message => {
       return
     }
 
-    const roleWhitelisted = whitelistedRoles.reduce(
-      (whitelisted, role) =>
-        message.member.roles.find('name', role) || role === '*' || whitelisted,
-      false,
-    )
+    const roleWhitelisted = whitelistedRoles.reduce((whitelisted, role) => {
+      message.member.roles.find('name', role) || role === '*' || whitelisted,
+      false
+    })
 
     if (!roleWhitelisted && whitelistedRoles) {
-      message.reply(
-        'Your role level is not high enough to access this bot',
-      )
+      message.reply('Your role level is not high enough to access this bot')
       return
     }
 
