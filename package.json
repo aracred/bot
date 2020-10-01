@@ -1,13 +1,7 @@
 {
-  "name": "AracredBot",
+  "name": "CredBot",
   "version": "0.0.1",
-  "description": "Aracred Bot for quickly onboarding users into aracred through Discord",
-  "keywords": [
-    "discord",
-    "aragon",
-    "aracred",
-    "sourcecred"
-  ],
+  "description": "Cred Bot for quickly onboarding users through Discord",
   "main": "src/index.js",
   "scripts": {
     "lint": "npx eslint ./src",
@@ -15,7 +9,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
-  "author": "Aracred",
+  "author": "Shenanigan",
   "license": "MIT",
   "dependencies": {
     "@sentry/node": "^5.15.4",

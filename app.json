@@ -1,14 +1,14 @@
 {
-  "name": "AracredBot",
+  "name": "CredBot",
   "description": "A barebones Node.js app using Express",
-  "repository": "https://github.com/aracred/bot",
+  "repository": "https://github.com/ShenaniganDApp/bot/",
   "logo": "https://avatars3.githubusercontent.com/u/63201387?s=200&v=4",
-  "keywords": ["node", "Discord", "Aracred"],
   "env": {
     "DISCORD_API_TOKEN": "YOUR_DISCORD_API_TOKEN",
     "GITHUB_API_TOKEN": "YOUR_GITHUB_API_TOKEN",
     "GITHUB_FILE_PATH": "<username>/<repo>/contents/<path_to_project.json>/project.json",
     "GITHUB_ADDRESS_FILE_PATH": "<username>/<repo>/contents/<path_to_addressbook.json>/addressbook.json",
-    "WHITELISTED_CHANNELS": "*"
+    "WHITELISTED_CHANNELS": "*",
+    "WHITELISTED_ROLES": "*"
   }
 }

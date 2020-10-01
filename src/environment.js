@@ -20,6 +20,7 @@ const ENV_VARS = {
   ],
   SENTRY_DSN: [process.env.SENTRY_DSN, '', false],
   WHITELISTED_CHANNELS: [process.env.WHITELISTED_CHANNELS, '*', false],
+  WHITELISTED_ROLES: [process.env.WHITELISTED_ROLES, '*', false]
 }
 
 function environment(name) {
