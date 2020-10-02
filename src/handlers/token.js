@@ -4,6 +4,7 @@ const fetch = require('node-fetch')
 module.exports = function token(message) {
   const query = `{
     token(id:"0xb5d592f85ab2d955c25720ebe6ff8d4d1e1be300") {
+        id
       totalLiquidity
       name
       symbol
@@ -27,12 +28,9 @@ module.exports = function token(message) {
         .setColor('#ff006c')
         .setTitle(`$${token.symbol} Token 🤸‍♀️`)
         .setURL('https://she.energy/swap')
-        .setDescription(`Token Address: ${token.address}`)
-        .setThumbnail(
-          'https://media.discordapp.net/attachments/708186850359246859/760681364163919994/1601430947224.png',
-        )
+        .setDescription(`Token Address: ${token.id}`)
         .setTimestamp()
-        .setFooter('Bot made by the Shenanigan team')
+        .setFooter('Bot made by the Shenanigan team', 'https://raw.githubusercontent.com/ShenaniganDApp/wiki/master/images/Particle.png')
       message.reply(embed)
     })
 }
