@@ -40,13 +40,15 @@ module.exports = function addAddress(message) {
           identity =>
             identity.discordId.toLowerCase() === discordId.toLowerCase(),
         )
-        if (userExists && userExists.address !== address) {
-          const index = decodedContent.indexOf(userExists)
-          decodedContent.splice(index, 1)
-        } else {
-          message.reply('I have that address saved already')
-          log('address already exists')
-          return
+        if (userExists) {
+          if (userExists.address !== address) {
+            const index = decodedContent.indexOf(userExists)
+            decodedContent.splice(index, 1)
+          } else {
+            message.reply('I have that address saved already')
+            log('address already exists')
+            return
+          }
         }
         // If the user is not registered, we can now proceed to mutate
         // the file by appending the user to the end of the array.
@@ -74,7 +76,7 @@ module.exports = function addAddress(message) {
         ).then(() => {
           if (userExists && userExists.address !== address) {
             message.reply(
-              `I changed ${userExists.address} to ${address} for you, ${name} `,
+              `I changed \`${userExists.address}\` to \`${address}\` for you, ${name} `,
             )
             log(`Detected ID ${discordId} already exists for user ${name}`)
           } else {
