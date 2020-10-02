@@ -33,6 +33,6 @@ module.exports = function token(message) {
         )
         .setTimestamp()
         .setFooter('Bot made by the Shenanigan team')
-      message.send(embed)
+      message.reply(embed)
     })
 }
