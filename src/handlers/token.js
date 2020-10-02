@@ -28,7 +28,7 @@ module.exports = function token(message) {
         .setColor('#ff006c')
         .setTitle(`$${token.symbol} Token 🤸‍♀️`)
         .setURL('https://she.energy/swap')
-        .setField({ name: 'Address', value: token.id })
+        .addField({ name: 'Address', value: token.id })
         .setTimestamp()
         .setFooter(
           'Bot made by the Shenanigan team',
