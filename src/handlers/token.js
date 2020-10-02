@@ -4,7 +4,7 @@ const fetch = require('node-fetch')
 module.exports = function token(message) {
   const query = `{
     token(id:"0xb5d592f85ab2d955c25720ebe6ff8d4d1e1be300") {
-        id
+      id
       totalLiquidity
       name
       symbol
@@ -28,7 +28,7 @@ module.exports = function token(message) {
         .setColor('#ff006c')
         .setTitle(`$${token.symbol} Token 🤸‍♀️`)
         .setURL('https://she.energy/swap')
-        .addField({ name: 'Address', value: token.id })
+        .addFields({ name: 'Address', value: `${token.id}` })
         .setTimestamp()
         .setFooter(
           'Bot made by the Shenanigan team',
