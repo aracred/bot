@@ -28,9 +28,12 @@ module.exports = function token(message) {
         .setColor('#ff006c')
         .setTitle(`$${token.symbol} Token 🤸‍♀️`)
         .setURL('https://she.energy/swap')
-        .setDescription(`Token Address: ${token.id}`)
+        .setField({ name: 'Address', value: token.id })
         .setTimestamp()
-        .setFooter('Bot made by the Shenanigan team', 'https://raw.githubusercontent.com/ShenaniganDApp/wiki/master/images/Particle.png')
+        .setFooter(
+          'Bot made by the Shenanigan team',
+          'https://raw.githubusercontent.com/ShenaniganDApp/wiki/master/images/Particle.png',
+        )
       message.reply(embed)
     })
 }
