@@ -15,7 +15,7 @@ module.exports = async function score(message) {
       'https://raw.githubusercontent.com/ShenaniganDApp/scoreboard/gh-pages/output/accounts.json',
     )
   ).json()
-  
+
   try {
     const accounts = credAccounts.accounts
     for (var i = 0; i < accounts.length; i++) {
@@ -54,17 +54,16 @@ module.exports = async function score(message) {
 
       let embed = new Discord.MessageEmbed()
         .setColor('#ff3864')
+        .setAuthor('Team Manager', 'https://raw.githubusercontent.com/sourcecred/sourcecred/master/src/assets/logo/rasterized/logo_64.png', 'https://she.energy/scoreboard')
         .setThumbnail(
           'https://raw.githubusercontent.com/sourcecred/sourcecred/master/src/assets/logo/rasterized/logo_64.png',
         )
-
         .addFields(
           {
             name: 'Total',
             value: Math.round(myTotalCred) + ' Cred',
             inline: true,
           },
-
           {
             name: 'Last week ',
             value: myWeeklyCred[lengthArray - 1].toPrecision(3) + ' Cred',
@@ -78,10 +77,8 @@ module.exports = async function score(message) {
           {
             name: 'Weekly Change',
             value: variation.toPrecision(2) + '%',
-          },
+          }
         )
-      console.log('embed: ', embed)
-
       message.reply(embed)
 
       return console.log('il y a un match' + i)
