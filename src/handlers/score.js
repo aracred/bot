@@ -1,154 +1,93 @@
+const sc = require('sourcecred').default
 const fetch = require('node-fetch')
 const Discord = require('discord.js')
+const { log } = require('../utils')
+
+const NodeAddress = sc.core.address.makeAddressModule({
+  name: 'NodeAddress',
+  nonce: 'N',
+  otherNonces: new Map().set('E', 'EdgeAddress'),
+})
 
 module.exports = async function score(message) {
-  const Credaccount = await (
+  const credAccounts = await (
     await fetch(
       'https://raw.githubusercontent.com/ShenaniganDApp/scoreboard/gh-pages/output/accounts.json',
     )
   ).json()
-  const objJSONtoString = JSON.stringify(Credaccount)
+  
+  try {
+    const accounts = credAccounts.accounts
+    for (var i = 0; i < accounts.length; i++) {
+      if (accounts[i].account.identity.subtype !== 'USER') continue
+      console.log('accounts[i].account.: ', accounts[i].account)
 
-  // JSON to javascript
-  const stringJSONtoJava = JSON.parse(objJSONtoString)
-  const PREFIX = '!she'
-  let args = message.content.substring(PREFIX.length).split(' ')
+      const discordAliases = accounts[i].account.identity.aliases.filter(
+        alias => {
+          const parts = NodeAddress.toParts(alias.address)
+          return parts.indexOf('discord') > 0
+        },
+      )
+      //no user on discord
+      if (!discordAliases.length) continue
 
-  // const intro = math.random()*10
+      let myTotalCred = 0
+      let lengthArray = 0
+      let myWeeklyCred = 0
+      console.log(accounts[i].totalCred)
+      discordAliases.forEach(alias => {
+        const discordId = NodeAddress.toParts(alias.address)[4]
+        if (discordId === message.author.id) {
+          myTotalCred = accounts[i].totalCred
 
-  // let welcomingbot = Array([a,b,c,d,e,f,g,hi,j,k]);
+          lengthArray = accounts[i].cred.length
 
-  // it's not a robust search and fits only the structure of the output file that SourceCred spits out
-  if (args.length < 2) {
-    try {
-      const targetName =
-        'N\u0000sourcecred\u0000discord\u0000MEMBER\u0000user\u0000' +
-        message.author.id +
-        '\u0000'
+          myWeeklyCred = accounts[i].cred
+        }
+      })
+      if (myTotalCred === 0) continue
 
-      for (var i = 0; i < 3000; i++) {
-        let idDiscord = stringJSONtoJava.accounts[i].account.identity
+      var variation =
+        (100 *
+          (myWeeklyCred[lengthArray - 1] - myWeeklyCred[lengthArray - 2])) /
+        myWeeklyCred[lengthArray - 2]
 
-        const handler = {
-          get(target, property) {
-            return target[property]
+      let embed = new Discord.MessageEmbed()
+        .setColor('#ff3864')
+        .setThumbnail(
+          'https://raw.githubusercontent.com/sourcecred/sourcecred/master/src/assets/logo/rasterized/logo_64.png',
+        )
+
+        .addFields(
+          {
+            name: 'Total',
+            value: Math.round(myTotalCred) + ' Cred',
+            inline: true,
           },
-        }
-        const proxyUser = new Proxy(idDiscord, handler)
 
-        const noDiscordAdress = proxyUser.aliases.length
+          {
+            name: 'Last week ',
+            value: myWeeklyCred[lengthArray - 1].toPrecision(3) + ' Cred',
+            inline: true,
+          },
+          {
+            name: 'Week before',
+            value: myWeeklyCred[lengthArray - 2].toPrecision(4) + ' Cred',
+            inline: true,
+          },
+          {
+            name: 'Weekly Change',
+            value: variation.toPrecision(2) + '%',
+          },
+        )
+      console.log('embed: ', embed)
 
-        console.log('bien lu')
+      message.reply(embed)
 
-        if (noDiscordAdress < 3) continue
-
-        const findAdress = proxyUser.aliases[2]
-
-        if (String(targetName) === String(findAdress.address)) {
-          let myTotalCred = stringJSONtoJava.accounts[i].totalCred
-
-          var lengthArray = stringJSONtoJava.accounts[i].cred.length
-
-          let myWeeklyCred = stringJSONtoJava.accounts[i].cred
-
-          var variation =
-            (100 *
-              (myWeeklyCred[lengthArray - 1] - myWeeklyCred[lengthArray - 2])) /
-            myWeeklyCred[lengthArray - 2]
-
-          let embed = new Discord.MessageEmbed()
-            .setColor('#ff3864')
-            .setThumbnail(
-              'https://raw.githubusercontent.com/sourcecred/sourcecred/master/src/assets/logo/rasterized/logo_64.png',
-            )
-
-            .addFields(
-              {
-                name: 'Total',
-                value: Math.round(myTotalCred) + ' Cred',
-                inline: true,
-              },
-
-              {
-                name: 'Last week ',
-                value: myWeeklyCred[lengthArray - 1].toPrecision(3) + ' Cred',
-                inline: true,
-              },
-              {
-                name: 'Week before',
-                value: myWeeklyCred[lengthArray - 2].toPrecision(4) + ' Cred',
-                inline: true,
-              },
-              {
-                name: 'Weekly Change',
-                value: variation.toPrecision(2) + '%',
-              },
-            )
-
-          message.channel.send(embed)
-
-          return console.log('il y a un match' + i)
-        }
-      }
-    } catch (err) {
-      return message.channel.send(
-        'Please, write this : !mycred *[your discord name]*',
-      )
+      return console.log('il y a un match' + i)
     }
-  } else {
-    const objJSONtoString = JSON.stringify(Credaccount)
-
-    // JSON to javascript
-    const stringJSONtoJava = JSON.parse(objJSONtoString)
-
-    //en mode manuel
-    const targetNameManual = args[1]
-
-    let position = stringJSONtoJava.accounts.findIndex(
-      a => a.account.identity.name === targetNameManual,
-    )
-
-    let myTotalCred = stringJSONtoJava.accounts[position].totalCred
-
-    var lengthArrayManual = stringJSONtoJava.accounts[position].cred.length
-
-    let myWeeklyCred = stringJSONtoJava.accounts[position].cred
-
-    var variationManual =
-      (100 * (myWeeklyCred[lengthArrayManual - 1] - myWeeklyCred[lengthArrayManual - 2])) /
-      myWeeklyCred[lengthArrayManual - 2]
-
-    let embed = new Discord.MessageEmbed()
-      .setColor('#ff3864')
-      .setDescription(' Hello ' + targetNameManual + '! You look nice today') //```\
-
-      .setThumbnail(
-        'https://raw.githubusercontent.com/sourcecred/sourcecred/master/src/assets/logo/rasterized/logo_64.png',
-      )
-
-      .addFields(
-        {
-          name: 'Total',
-          value: Math.round(myTotalCred) + ' Cred',
-          inline: true,
-        },
-
-        {
-          name: 'Last week ',
-          value: myWeeklyCred[lengthArrayManual - 1].toPrecision(3) + ' Cred',
-          inline: true,
-        },
-        {
-          name: 'Week before',
-          value: myWeeklyCred[lengthArrayManual - 2].toPrecision(4) + ' Cred',
-          inline: true,
-        },
-        {
-          name: 'Weekly Change',
-          value: variationManual.toPrecision(2) + '%',
-        },
-      )
-
-    message.channel.send(embed)
+  } catch (err) {
+    log('err: ', err)
+    return message.reply('Whoops, seems you are missing!')
   }
 }
