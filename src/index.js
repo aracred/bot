@@ -17,7 +17,7 @@ Sentry.init({ dsn: environment('SENTRY_DSN') })
 
 const client = new Discord.Client()
 
-client.on('ready', () => {
+client.on('ready', async () => {
   log(`Bot successfully started as ${client.user.tag}`)
 })
 
