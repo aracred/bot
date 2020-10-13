@@ -9,7 +9,6 @@ const {
 const { environment } = require('./environment')
 const { error, log } = require('./utils')
 const parseWhitelistedChannels = require('./parser/whitelistedChannels')
-const parseWhitelistedRoles = require('./parser/whitelistedRoles')
 
 // Load this as early as possible, to init all the environment variables that may be needed
 dotenv.config()
@@ -19,7 +18,35 @@ const client = new Discord.Client()
 
 client.on('ready', async () => {
   log(`Bot successfully started as ${client.user.tag}`)
+  client.channels.cache
+    .get('765653777691836428')
+    .send(
+      `React to this message to join active groups for your interests.\n
+  💻: Developers\n
+  🎨: Design\n
+  🛒: Marketing\n`,
+    )
+    .then(sentEmbed => {
+      sentEmbed.react('💻')
+      sentEmbed.react('🎨')
+      sentEmbed.react('🛒')
+    })
 })
+
+// client.on('messageReactionAdd', (reaction, user) => {
+//   if(message ===)
+//   if (reaction === 💻){
+// const role = member.guild.roles.cache.find(r => r.name === 'Developer')
+// user.add(role)
+//   } else if (reaction === 🎨){
+// const role = member.guild.roles.cache.find(r => r.name === 'Designer')
+// user.add(role)
+//   } else if (reaction ===🦄){
+// const role = member.guild.roles.cache.find(r => r.name === 'Social Media Unicorn')
+// user.add(role)
+//   }else
+//   return null
+// });
 
 client.on('message', message => {
   const isCommand = message.content.split(' ')[0] === '!she'
@@ -28,7 +55,6 @@ client.on('message', message => {
   }
   try {
     const whitelistedChannels = parseWhitelistedChannels()
-    const whitelistedRoles = parseWhitelistedRoles()
 
     const messageWhitelisted = whitelistedChannels.reduce(
       (whitelisted, channel) =>
@@ -37,17 +63,6 @@ client.on('message', message => {
     )
 
     if (!messageWhitelisted && whitelistedChannels) {
-      return
-    }
-    const roleWhitelisted = whitelistedRoles.reduce(
-      (whitelisted, role) =>
-        message.member.roles.cache.find(r => role === r.name) ||
-        role === '*' ||
-        whitelisted,
-      false,
-    )
-    if (!roleWhitelisted && whitelistedRoles && isCommand) {
-      message.reply('Your role level is not high enough to access this bot')
       return
     }
 

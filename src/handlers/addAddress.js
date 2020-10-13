@@ -7,11 +7,26 @@ const {
   marshallAddressEntry,
 } = require('../handler-utils')
 const parseAddAddress = require('../parser/addAddress')
+const parseWhitelistedRoles = require('../parser/whitelistedRoles')
 const { error, log } = require('../utils')
 
 const GITHUB_API_URL = 'https://api.github.com'
 
 module.exports = function addAddress(message) {
+  const whitelistedRoles = parseWhitelistedRoles()
+
+  const roleWhitelisted = whitelistedRoles.reduce(
+    (whitelisted, role) =>
+      message.member.roles.cache.find(r => role === r.name) ||
+      role === '*' ||
+      whitelisted,
+    false,
+  )
+  if (!roleWhitelisted && whitelistedRoles) {
+    message.reply('Your role level is not high enough to access this bot')
+    return
+  }
+
   try {
     const address = parseAddAddress(message.content)
     const name = message.author.username

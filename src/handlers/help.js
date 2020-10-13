@@ -7,6 +7,10 @@ Available Team Manager commands:
 
 - !she token → Shows the $PRTCLE token
 
+- !she score → View your weekly score from the scoreboard
+
+- !she intro → Use this command in #👋_-introductions-_👋 to join the discord
+
 - !she help → This command.
 
 `
