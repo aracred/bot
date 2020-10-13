@@ -1,6 +1,5 @@
-module.exports = function token(message) {
-  if (message.channel.name.toLowerCase() === '👋_-introductions-_👋') {
-    const role = message.guild.roles.cache.find(r => r.name === 'Fans')
-    message.author.add(role)
-  }
+module.exports = function intro(message) {
+  const role = message.guild.roles.cache.find(r => r.name === 'Fans')
+  const member = message.guild.members.cache.get(message.author.id)
+  member.roles.add(role)
 }
