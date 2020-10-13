@@ -24,7 +24,8 @@ client.on('ready', async () => {
       `React to this message to join active groups for your interests.\n
   💻: Developers\n
   🎨: Design\n
-  🛒: Marketing\n`,
+  🛒: Marketing\n
+  You should see specific channels open to you once your inside Shenanigan`,
     )
     .then(sentEmbed => {
       sentEmbed.react('💻')
