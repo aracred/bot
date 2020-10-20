@@ -39,7 +39,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
   let message = reaction.message
   if (message.author.id === user.id) {
     // Remove the user's reaction
-    reaction.remove(user)
+    reaction.users.remove(user.id)
     log(`Removed self reaction for ${user.tag}`)
   }
 })
