@@ -15,14 +15,27 @@ const roleMessage = require('./roleMessage')
 dotenv.config()
 Sentry.init({ dsn: environment('SENTRY_DSN') })
 
-const client = new Discord.Client()
+const client = new Discord.Client({
+  partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+})
 
 client.on('ready', async () => {
   log(`Bot successfully started as ${client.user.tag}`)
   roleMessage(client)
 })
 
-client.on('messageReactionAdd', (reaction, user) => {
+client.on('messageReactionAdd', async (reaction, user) => {
+  // When we receive a reaction we check if the reaction is partial or not
+  if (reaction.partial) {
+    // If the message this reaction belongs to was removed the fetching might result in an API error, which we need to handle
+    try {
+      await reaction.fetch()
+    } catch (error) {
+      console.error('Something went wrong when fetching the message: ', error)
+      // Return as `reaction.message.author` may be undefined/null
+      return
+    }
+  }
   let message = reaction.message
   if (message.author.id === user.id) {
     // Remove the user's reaction
