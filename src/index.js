@@ -37,7 +37,10 @@ client.on('messageReactionAdd', async (reaction, user) => {
     }
   }
   let message = reaction.message
-  if (message.author.id === user.id) {
+  if (
+    message.author.id === user.id &&
+    message.author.id !== '324631108731928587'
+  ) {
     // Remove the user's reaction
     reaction.users.remove(user.id)
     log(`Removed self reaction for ${user.tag}`)
