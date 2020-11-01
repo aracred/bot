@@ -19,7 +19,7 @@ module.exports = async function starboard(message) {
       {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
+          Authorization: `Bearer ${process.env.GITHUB_API_TOKEN}`,
         },
       },
     )
@@ -90,7 +90,7 @@ module.exports = async function starboard(message) {
           {
             method: 'PUT',
             headers: {
-              Authorization: `Bearer ${process.env.API_TOKEN}`,
+              Authorization: `Bearer ${process.env.GITHUB_API_TOKEN}`,
             },
             body: marshalledBody,
           },
