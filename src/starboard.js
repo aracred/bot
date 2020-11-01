@@ -33,9 +33,16 @@ module.exports = async function starboard(message) {
         const decodedContent = decodeData(encodedContent) // Manipulated the decoded content:
         // First, check if the user already exists.decodedContent.unshift(message.id)
         for (let i = decodedContent.length; i > 0; i--) {
-          const fetchedMessage = await message.channel.messages.fetch(
-            decodedContent[i],
-          )
+          let fetchedMessage = {}
+          try {
+            fetchedMessage = await message.channel.messages.fetch(
+              decodedContent[i],
+            )
+          } catch (err) {
+            log(err)
+            decodedContent.splice(i, i)
+            continue
+          }
           const reactions = fetchedMessage.reactions
           let attachment = fetchedMessage.attachments
             ? fetchedMessage.attachments.size > 0
@@ -105,13 +112,11 @@ module.exports = async function starboard(message) {
       .catch(err => {
         error(err)
         message.reply(
-          'Something went wrong while executing the command. Please try again in a few minutes.',
+          'Couldn\'t save the meme to the server. Wait and try again later',
         )
+        message.delete()
       })
   } catch (err) {
     log(error)
-    message.reply(
-      'Command parsing failed. Please use the !she help command to see how to use the requested command properly.',
-    )
   }
 }
