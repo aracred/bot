@@ -67,7 +67,7 @@ client.on('message', message => {
       return
     }
 
-    if (message.channel.id === '772357668425695272') {
+    if (message.channel.id === '772383977268969473') {
       starboard(message)
     }
 
