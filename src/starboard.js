@@ -12,7 +12,7 @@ const sendChannelId = '772343042199257098'
 
 module.exports = async function starboard(message) {
   try {
-    const yesterdayTimestamp = message.createdTimestamp - 86400
+    const yesterdayTimestamp = message.createdTimestamp - 86400000
     const name = message.author.username
     fetch(
       `${GITHUB_API_URL}/repos/ShenaniganDApp/scoreboard/contents/data/messageIds.json`,
