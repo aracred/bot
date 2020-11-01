@@ -63,7 +63,6 @@ client.on('message', message => {
     )
 
     if (!messageWhitelisted && whitelistedChannels) {
-      log(`Bot is not allowed in ${message.channel.name}`)
       return
     }
 
