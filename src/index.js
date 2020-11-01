@@ -10,6 +10,7 @@ const { environment } = require('./environment')
 const { error, log } = require('./utils')
 const parseWhitelistedChannels = require('./parser/whitelistedChannels')
 const roleMessage = require('./roleMessage')
+const starboard = require('./starboard')
 
 // Load this as early as possible, to init all the environment variables that may be needed
 dotenv.config()
@@ -63,6 +64,10 @@ client.on('message', message => {
 
     if (!messageWhitelisted && whitelistedChannels) {
       return
+    }
+
+    if (message.channel.id === '772357668425695272') {
+      starboard(message)
     }
 
     const handler = detectHandler(message.content)
