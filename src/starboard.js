@@ -15,7 +15,7 @@ module.exports = async function starboard(message) {
     const yesterdayTimestamp = message.createdTimestamp - 86400
     const name = message.author.username
     fetch(
-      `${GITHUB_API_URL}/repos/ShenaniganDApp/bot/contents/messageIds.json`,
+      `${GITHUB_API_URL}/repos/ShenaniganDApp/scoreboard/contents/data/messageIds.json`,
       {
         method: 'GET',
         headers: {
@@ -86,7 +86,7 @@ module.exports = async function starboard(message) {
         })
         // And we update the project.json file directly.
         fetch(
-          `${GITHUB_API_URL}/repos/ShenaniganDApp/bot/contents/messageIds.json`,
+          `${GITHUB_API_URL}/repos/ShenaniganDApp/scoreboard/contents/data/messageIds.json`,
           {
             method: 'PUT',
             headers: {
