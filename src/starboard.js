@@ -13,7 +13,6 @@ const sendChannelId = '772343042199257098'
 module.exports = async function starboard(message) {
   try {
     const yesterdayTimestamp = message.createdTimestamp - 86400000
-    console.log('yesterdayTimestamp: ', yesterdayTimestamp)
     const name = message.author.username
     fetch(
       `${GITHUB_API_URL}/repos/ShenaniganDApp/scoreboard/contents/data/messageIds.json`,
@@ -32,13 +31,12 @@ module.exports = async function starboard(message) {
         // Decode the content from the Github API response, as
         // it's returned as a base64 string.
         const decodedContent = decodeData(encodedContent) // Manipulated the decoded content:
-
         // First, check if the user already exists.decodedContent.unshift(message.id)
-        for (let i = decodedContent.length; i > 0; i--) {
+        for (let i = decodedContent.length - 1; i >= 0; i--) {
           let fetchedMessage = {}
           try {
             fetchedMessage = await message.channel.messages.fetch(
-              decodedContent[i],
+              '772652259137552404',
             )
           } catch (err) {
             log(err)
@@ -55,8 +53,6 @@ module.exports = async function starboard(message) {
             const starReactions = reactions.resolve('⭐️')
             const starCount = starReactions ? starReactions.count() : 0
             if (fetchedMessage.createdTimestamp > yesterdayTimestamp) {
-              console.log(fetchedMessage)
-
               break
             } else {
               if (starCount < process.env.REACTION_LIMIT) {
