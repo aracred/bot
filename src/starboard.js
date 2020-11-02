@@ -36,7 +36,7 @@ module.exports = async function starboard(message) {
           let fetchedMessage = {}
           try {
             fetchedMessage = await message.channel.messages.fetch(
-              '772652259137552404',
+              decodedContent[i],
             )
           } catch (err) {
             log(err)
