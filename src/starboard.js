@@ -55,7 +55,10 @@ module.exports = async function starboard(message) {
             if (fetchedMessage.createdTimestamp > yesterdayTimestamp) {
               break
             } else {
-              if (starCount < process.env.REACTION_LIMIT) {
+              if (
+                fetchedMessage.createdTimestamp &&
+                starCount < process.env.REACTION_LIMIT
+              ) {
                 const sendChannel = message.guild.channels.cache.get(
                   sendChannelId,
                 )
