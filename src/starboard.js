@@ -36,7 +36,7 @@ module.exports = async function starboard(message) {
           let fetchedMessage = {}
           try {
             fetchedMessage = await message.channel.messages.fetch(
-              '772817569522515999',
+              decodedContent[i],
             )
           } catch (err) {
             log(err)
@@ -51,7 +51,7 @@ module.exports = async function starboard(message) {
             : []
           if (reactions) {
             const starReactions = reactions.cache.get('⭐')
-            const starCount = starReactions ? starReactions.count() : 0
+            const starCount = starReactions.count
             if (fetchedMessage.createdTimestamp > yesterdayTimestamp) {
               break
             } else {
