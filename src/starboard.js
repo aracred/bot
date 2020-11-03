@@ -51,11 +51,10 @@ module.exports = async function starboard(message) {
             : []
           if (reactions) {
             const starReactions = reactions.cache.get('⭐')
-            const starCount = starReactions.count
+            const starCount = starReactions ? starReactions.count : 0
             if (fetchedMessage.createdTimestamp > yesterdayTimestamp) {
               break
             } else {
-              console.log(fetchedMessage.createdTimestamp)
               if (
                 fetchedMessage.createdTimestamp &&
                 starCount < process.env.REACTION_LIMIT
