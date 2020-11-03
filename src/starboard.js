@@ -36,7 +36,7 @@ module.exports = async function starboard(message) {
           let fetchedMessage = {}
           try {
             fetchedMessage = await message.channel.messages.fetch(
-              decodedContent[i],
+              '772817569522515999',
             )
           } catch (err) {
             log(err)
@@ -49,9 +49,8 @@ module.exports = async function starboard(message) {
               ? fetchedMessage.attachments.map(a => a.attachment)
               : []
             : []
-          console.log(fetchedMessage.createdTimestamp)
           if (reactions) {
-            const starReactions = reactions.resolve('772987241482944573')
+            const starReactions = reactions.cache.get('⭐')
             const starCount = starReactions ? starReactions.count() : 0
             if (fetchedMessage.createdTimestamp > yesterdayTimestamp) {
               break
@@ -62,11 +61,8 @@ module.exports = async function starboard(message) {
                 )
                 await sendChannel
                   .send({
-                    embed: new Discord.MessageEmbed()
-                      .setAuthor(
-                        `${fetchedMessage.author.username}`,
-                        `${fetchedMessage.author.displayAvatarURL()}`,
-                      )
+                    embed: new Discord.MessageEmbed().set
+
                       .setDescription(fetchedMessage)
                       .setTimestamp(fetchedMessage.createdTimestamp),
                     files: attachment,
