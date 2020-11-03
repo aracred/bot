@@ -55,6 +55,7 @@ module.exports = async function starboard(message) {
             if (fetchedMessage.createdTimestamp > yesterdayTimestamp) {
               break
             } else {
+              console.log(fetchedMessage.createdTimestamp)
               if (
                 fetchedMessage.createdTimestamp &&
                 starCount < process.env.REACTION_LIMIT
@@ -64,8 +65,11 @@ module.exports = async function starboard(message) {
                 )
                 await sendChannel
                   .send({
-                    embed: new Discord.MessageEmbed().set
-
+                    embed: new Discord.MessageEmbed()
+                      .setAuthor(
+                        `${fetchedMessage.author.username}`,
+                        `${fetchedMessage.author.displayAvatarURL()}`,
+                      )
                       .setDescription(fetchedMessage)
                       .setTimestamp(fetchedMessage.createdTimestamp),
                     files: attachment,
