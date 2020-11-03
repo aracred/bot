@@ -49,8 +49,9 @@ module.exports = async function starboard(message) {
               ? fetchedMessage.attachments.map(a => a.attachment)
               : []
             : []
+          console.log(fetchedMessage.createdTimestamp)
           if (reactions) {
-            const starReactions = reactions.resolve('⭐️')
+            const starReactions = reactions.resolve('772987241482944573')
             const starCount = starReactions ? starReactions.count() : 0
             if (fetchedMessage.createdTimestamp > yesterdayTimestamp) {
               break
