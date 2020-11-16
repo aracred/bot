@@ -38,7 +38,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
     }
   }
   let message = reaction.message
-  let rMember = await message.guild.members.get(user.id)
+  let rMember = await message.guild.members.cache.get(user.id)
 
   if (
     (message.author.id === user.id &&
