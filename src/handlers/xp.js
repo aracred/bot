@@ -53,7 +53,10 @@ const getScores = (message, targetParameter, authorUsername, authorDiscordID, id
         }
       )
       if (user === false || user === undefined || user === null) {
-        throw new Error('User not found')
+        message.reply(
+          'Something went wrong while executing the command. Please try again in a few minutes.',
+        )
+        return
       }
       let myTotalCred = user.totalCred
       var lengthArray = user.intervalCred.length
@@ -189,7 +192,10 @@ const getIdentities = (message, targetParameter, authorUsername, authorDiscordID
         const platforms = {username: existingIdentity.username, aliases: existingPlatforms}
         return getScoresBlobSha(message, targetParameter, authorUsername, authorDiscordID, platforms)
       } else {
-        throw new Error('User not found, please signup with `!ac signup platform/username`')
+        message.reply(
+          'User not found, please signup with `!ac signup platform/username`',
+        )
+        return
       }
     })
     .catch(err => {
