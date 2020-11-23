@@ -14,6 +14,7 @@ const parseWhitelistedChannels = require('./parser/whitelistedChannels')
 dotenv.config()
 Sentry.init({ dsn: environment('SENTRY_DSN') })
 
+log(`${environment('GITHUB_FILE_PATH')} - ${environment('GITHUB_ADDRESS_FILE_PATH')} - ${environment('GITHUB_SCORES_FILE_PATH')}`)
 const client = new Discord.Client()
 
 client.on('ready', () => {
