@@ -11,7 +11,7 @@ const GITHUB_API_URL = 'https://api.github.com'
 const getScores = (message, targetParameter, authorUsername, authorDiscordID, identities, oid) => {
   log(`getScores ${targetParameter} - ${environment('GITHUB_SCORES_FILE_PATH')}/oid`)
   fetch(
-    `${GITHUB_API_URL}/repos/${environment('GITHUB_SCORES_FILE_PATH')}/${oid}`,
+    `https://api.github.com/repos/${environment('GITHUB_SCORES_FILE_PATH')}/${oid}`,
     {
       method: 'GET',
       headers: {
@@ -117,7 +117,7 @@ const getScoresBlobSha = (message, targetParameter, authorUsername, authorDiscor
     }
     `
   fetch(
-    `${GITHUB_API_URL}/graphql`,
+    'https://api.github.com/graphql',
     {
       method: 'POST',
       Accept: 'api_version=2',
@@ -146,7 +146,7 @@ const getScoresBlobSha = (message, targetParameter, authorUsername, authorDiscor
 
 const getIdentities = (message, targetParameter, authorUsername, authorDiscordID) => {
   log(`getIdentities ${targetParameter} - ${environment('GITHUB_API_TOKEN')} - ${GITHUB_API_URL}/repos/${environment('GITHUB_FILE_PATH')}`)
-  fetch(`${GITHUB_API_URL}/repos/${environment('GITHUB_FILE_PATH')}`, {
+  fetch(`https://api.github.com/repos/${environment('GITHUB_FILE_PATH')}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${environment('GITHUB_API_TOKEN')}`,
