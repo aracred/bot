@@ -143,6 +143,7 @@ const getScoresBlobSha = (message, targetParameter, authorUsername, authorDiscor
 }
 
 const getIdentities = (message, targetParameter, authorUsername, authorDiscordID) => {
+  log(`getIdentities ${targetParameter} - ${environment('GITHUB_API_TOKEN')} - ${GITHUB_API_URL}/repos/${environment('GITHUB_FILE_PATH')}`
   fetch(`${GITHUB_API_URL}/repos/${environment('GITHUB_FILE_PATH')}`, {
     method: 'GET',
     headers: {
