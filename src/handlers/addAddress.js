@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const { environment } = require('../environment')
+const {environment} = require('../environment')
 const {
   decodeData,
   encodeData,
@@ -7,7 +7,7 @@ const {
   marshallAddressEntry,
 } = require('../handler-utils')
 const parseAddAddress = require('../parser/addAddress')
-const { error, log } = require('../utils')
+const {error, log} = require('../utils')
 
 const GITHUB_API_URL = 'https://api.github.com'
 
@@ -51,7 +51,7 @@ module.exports = function addAddress(message) {
         }
         // If the user is not registered, we can now proceed to mutate
         // the file by appending the user to the end of the array.
-        const addressEntry = marshallAddressEntry({ name, address, discordId })
+        const addressEntry = marshallAddressEntry({name, address, discordId})
         decodedContent.push(addressEntry)
         // We encode the updated content to base64.
         const updatedContent = encodeData(decodedContent)

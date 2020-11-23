@@ -11,6 +11,8 @@ Available AracredBot commands:
 
 > !ac signup github/foo discourse/foo
 
+> !ac xp <username> → Returns your XP from the SourceCred Instance
+
 `
 
 module.exports = function help(message) {
