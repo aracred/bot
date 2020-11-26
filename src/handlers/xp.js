@@ -73,17 +73,17 @@ module.exports = async function score(message) {
           .addFields(
             {
               name: 'Total',
-              value: Math.round(userTotalCred) + ' Cred',
+              value: Math.round(userTotalCred) + ' XP',
               inline: true,
             },
             {
               name: 'Last week ',
-              value: userWeeklyCred[lengthArray - 1].toPrecision(3) + ' Cred',
+              value: userWeeklyCred[lengthArray - 1].toPrecision(3) + ' XP',
               inline: true,
             },
             {
               name: 'Week before',
-              value: userWeeklyCred[lengthArray - 2].toPrecision(4) + ' Cred',
+              value: userWeeklyCred[lengthArray - 2].toPrecision(4) + ' XP',
               inline: true,
             },
             {
