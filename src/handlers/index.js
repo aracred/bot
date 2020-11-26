@@ -8,7 +8,6 @@ const handlers = new Map([
   ['help', helpHandler],
   ['signup', signupHandler],
   ['xp', xpHandler],
-
 ])
 
 module.exports = handlers

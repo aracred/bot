@@ -23,9 +23,9 @@ const ENV_VARS = {
     '<username>/<repo>/contents/<path_to_addressbook.json>/addressbook.json',
     true,
   ],
-  GITHUB_SCORES_FILE_PATH: [
-    process.env.GITHUB_SCORES_FILE_PATH,
-    'MetaFam/TheSource/git/blobs',
+  GITHUB_LEDGER_FILE_PATH: [
+    process.env.GITHUB_LEDGER_FILE_PATH,
+    '<account>/<repo>/<branch>/<path_to_file>/accounts.json',
     true
   ],
   SENTRY_DSN: [process.env.SENTRY_DSN, '', false],

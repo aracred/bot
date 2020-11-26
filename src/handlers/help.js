@@ -11,7 +11,9 @@ Available AracredBot commands:
 
 > !ac signup github/foo discourse/foo
 
-> !ac xp <username> → Returns your XP from the SourceCred Instance
+- !ac xp <username> → Returns XP for a User from the XP Ledger
+
+> !ac xp @discord-username
 
 `
 
