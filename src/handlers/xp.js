@@ -5,13 +5,13 @@ const parseMyCred = require('../parser/myCred')
 const { environment } = require('../environment')
 const { MessageEmbed } = require('discord.js')
 
-const NodeAddress = sc.core.address.makeAddressModule({
-  name: 'NodeAddress',
-  nonce: 'N',
-  otherNonces: new Map().set('E', 'EdgeAddress'),
-})
-
 module.exports = async function score(message) {
+  const NodeAddress = sc.core.address.makeAddressModule({
+    name: 'NodeAddress',
+    nonce: 'N',
+    otherNonces: new Map().set('E', 'EdgeAddress'),
+  })
+
   const targetParameter = parseMyCred(message.content)
   const targetUserDiscordID = targetParameter.slice(3, targetParameter.length - 1)
 
