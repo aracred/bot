@@ -3,7 +3,6 @@ const fetch = require('node-fetch')
 const { log } = require('../utils')
 const parseMyCred = require('../parser/myCred')
 const { environment } = require('../environment')
-const { MessageEmbed } = require('discord.js')
 
 module.exports = async function score(message) {
   const NodeAddress = sc.core.address.makeAddressModule({
@@ -61,6 +60,7 @@ module.exports = async function score(message) {
             (userWeeklyCred[lengthArray - 1] - userWeeklyCred[lengthArray - 2])) /
           userWeeklyCred[lengthArray - 2]
 
+        const MessageEmbed = require('discord.js').MessageEmbed
         let embed = new MessageEmbed()
           .setColor('#ff3864')
           .setDescription(`${targetParameter}, please find your XP progression on MetaGame`) //```\
