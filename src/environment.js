@@ -23,8 +23,8 @@ const ENV_VARS = {
     '<username>/<repo>/contents/<path_to_addressbook.json>/addressbook.json',
     true,
   ],
-  GITHUB_LEDGER_FILE_PATH: [
-    process.env.GITHUB_LEDGER_FILE_PATH,
+  GITHUB_ACCOUNT_FILE_PATH: [
+    process.env.GITHUB_ACCOUNT_FILE_PATH,
     '<account>/<repo>/<branch>/<path_to_file>/accounts.json',
   ],
   GITHUB_LEDGER_EXPLORER_PATH: [
