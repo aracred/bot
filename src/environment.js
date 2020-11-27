@@ -26,6 +26,15 @@ const ENV_VARS = {
   GITHUB_LEDGER_FILE_PATH: [
     process.env.GITHUB_LEDGER_FILE_PATH,
     '<account>/<repo>/<branch>/<path_to_file>/accounts.json',
+  ],
+  GITHUB_LEDGER_EXPLORER_PATH: [
+    process.env.GITHUB_LEDGER_EXPLORER_PATH,
+    'https://<username>.github.io/<repo>/#/explorer',
+    true
+  ],
+  PROJECT_NAME: [
+    process.env.PROJECT_NAME,
+    'MetaGame',
     true
   ],
   SENTRY_DSN: [process.env.SENTRY_DSN, '', false],

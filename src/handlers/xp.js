@@ -1,110 +1,103 @@
-const sc = require('sourcecred').default
 const fetch = require('node-fetch')
-const { log } = require('../utils')
+const { error, log } = require('../utils')
 const parseMyCred = require('../parser/myCred')
 const { environment } = require('../environment')
+const MessageEmbed = require('discord.js').MessageEmbed
+const NodeAddress = require('../sourcecred-utils')
 
-module.exports = async function score(message) {
-  const NodeAddress = sc.core.address.makeAddressModule({
-    name: 'NodeAddress',
-    nonce: 'N',
-    otherNonces: new Map().set('E', 'EdgeAddress'),
-  })
-
-  const targetParameter = parseMyCred(message.content)
-  const targetUserDiscordID = targetParameter.slice(3, targetParameter.length - 1)
-
-  if (isNaN(targetUserDiscordID)) {
-    return message.reply(
-      'command parsing failed. Please use the !ac help command to see how to use the requested command properly.',
-    )
-  }
-
-  const credAccounts = await (
-    await fetch(`https://raw.githubusercontent.com/${environment('GITHUB_LEDGER_FILE_PATH')}`,
-    )
-  ).json()
-
-  try {
-    const accounts = credAccounts.accounts
-    for (let i = 0; i < accounts.length; i++) {
-      if (accounts[i].account.identity.subtype !== 'USER') continue
-
-      const discordAliases = accounts[i].account.identity.aliases.filter(
-        alias => {
-          const parts = NodeAddress.toParts(alias.address)
-          return parts.indexOf('discord') > 0
-        },
-      )
-      //no user on discord
-      if (!discordAliases.length) continue
-
-      let userTotalCred = 0
-      let lengthArray = 0
-      let userWeeklyCred = 0
-      let found = false
-
-      discordAliases.forEach(alias => {
-        const discordId = NodeAddress.toParts(alias.address)[4]
-        userTotalCred = accounts[i].totalCred
-        lengthArray = accounts[i].cred.length
-        userWeeklyCred = accounts[i].cred
-        if (discordId === targetUserDiscordID) {
-          found = true
-        }
-      })
-
-      if (found) {
-        let variation =
-          (100 *
-            (userWeeklyCred[lengthArray - 1] - userWeeklyCred[lengthArray - 2])) /
-          userWeeklyCred[lengthArray - 2]
-
-        const MessageEmbed = require('discord.js').MessageEmbed
-        let embed = new MessageEmbed()
-          .setColor('#ff3864')
-          .setDescription(`${targetParameter}, please find your XP progression on MetaGame`) //```\
-          .setTitle('MetaGame XP Ledger')
-          .setURL('https://metafam.github.io/XP/#/explorer')
-          .setTimestamp()
-          .setThumbnail(
-            'https://raw.githubusercontent.com/sourcecred/sourcecred/master/src/assets/logo/rasterized/logo_64.png',
-          )
-          .addFields(
-            {
-              name: 'Total',
-              value: Math.round(userTotalCred) + ' XP',
-              inline: true,
-            },
-            {
-              name: 'Last week ',
-              value: userWeeklyCred[lengthArray - 1].toPrecision(3) + ' XP',
-              inline: true,
-            },
-            {
-              name: 'Week before',
-              value: userWeeklyCred[lengthArray - 2].toPrecision(4) + ' XP',
-              inline: true,
-            },
-            {
-              name: 'Weekly Change',
-              value: variation.toPrecision(2) + '%',
-            },
-          )
-          .setFooter(
-            'Bot made by MetaFam',
-            'https://wiki.metagame.wtf/img/mg-crystal.png',
-          )
-        message.reply(embed)
-        return log(`Fetched XP for user ${targetParameter}`)
-      }
+const filterAccount = (obj, targetUserDiscordID) => {
+  // Ignore if the target isn't a USER
+  if (obj.account.identity.subtype !== 'USER') return false
+  const discordAlias = obj.account.identity.aliases.filter(
+    alias => {
+      const parts = NodeAddress.toParts(alias.address)
+      return parts.indexOf('discord') > 0
+    })
+  if (discordAlias.length === 1) {
+    // Retrieve the Discord ID
+    const discordId = NodeAddress.toParts(discordAlias[0].address)[4]
+    if (discordId === targetUserDiscordID) {
+      return obj
     }
-    log(`${targetUserDiscordID} not found in ledger`)
-    return message.reply(`Looks like we couldn't find you, ${targetParameter}, make sure to register! Please type !ac help to find out how!`)
+  }
+  return false
+}
+
+const scoreFind = async (message) => {
+  try {
+    // Parse message.content to get the targeted user
+    const targetParameter = parseMyCred(message.content)
+    // Remove the first characters <@! and the last > to get the Discord ID
+    const targetUserDiscordID = targetParameter.slice(3, targetParameter.length - 1)
+    if (isNaN(targetUserDiscordID)) {
+      return message.reply(
+        'You must tag a user to use this command, try `!ac xp @your-discord-username` or `!ac help` if you need help',
+      )
+    }
+
+    // Fetch accounts.json containing the xp
+    const credAccounts = await (
+      await fetch(`https://raw.githubusercontent.com/${environment('GITHUB_ACCOUNT_FILE_PATH')}`,
+      )
+    ).json()
+    const accounts = credAccounts.accounts
+    // Retrieve the Discord ID targeted
+    const userIndex = accounts.findIndex(account => filterAccount(account, targetUserDiscordID))
+    if (userIndex > -1) {
+      const userTotalCred = accounts[userIndex].totalCred
+      const lengthArray = accounts[userIndex].cred.length
+      const userWeeklyCred = accounts[userIndex].cred
+      const variation =
+        (100 *
+          (userWeeklyCred[lengthArray - 1] - userWeeklyCred[lengthArray - 2])) /
+        userWeeklyCred[lengthArray - 2]
+
+      let embed = new MessageEmbed()
+        .setColor('#ff3864')
+        .setDescription(`${targetParameter}, please find your XP progression on ${environment('PROJECT_NAME')}`) //```\
+        .setTitle(`${environment('PROJECT_NAME')} XP Ledger`)
+        .setURL(environment('GITHUB_LEDGER_EXPLORER_PATH')) //
+        .setTimestamp()
+        .setThumbnail(
+          'https://raw.githubusercontent.com/sourcecred/sourcecred/master/src/assets/logo/rasterized/logo_64.png',
+        )
+        .addFields(
+          {
+            name: 'Total',
+            value: Math.round(userTotalCred) + ' XP',
+            inline: true,
+          },
+          {
+            name: 'Last week ',
+            value: userWeeklyCred[lengthArray - 1].toPrecision(3) + ' XP',
+            inline: true,
+          },
+          {
+            name: 'Week before',
+            value: userWeeklyCred[lengthArray - 2].toPrecision(4) + ' XP',
+            inline: true,
+          },
+          {
+            name: 'Weekly Change',
+            value: variation.toPrecision(2) + '%',
+            inline: true,
+          },
+        )
+        .setFooter(
+          'Bot made by MetaFam',
+          'https://wiki.metagame.wtf/img/mg-crystal.png',
+        )
+      message.reply(embed)
+      return log(`Fetched XP for user ${targetParameter}`)
+    }
+    log(`${targetParameter} not found in accounts.json`)
+    return message.reply(`looks like we couldn't find ${targetParameter}! Make sure to register to use this command!`)
   } catch (err) {
-    log('err: ', err)
+    error(err)
     message.reply(
-      'Command parsing failed. Please use the !ac help command to see how to use the requested command properl   y.',
+      'Command parsing failed. Please use the !ac help command to see how to use the requested command properly.',
     )
   }
 }
+
+module.exports = scoreFind
