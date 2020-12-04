@@ -11,8 +11,8 @@ module.exports = function parseMyCred(message) {
     )
   }
   // Split xp message by whitespace,
-  // and remove the two items (!ac xp)
-  const splitMessage = message.split(' ').slice(2)
+  // and remove the two items (!xp @discordusername)
+  const splitMessage = message.split(' ').slice(1)
 
   if (splitMessage.length < 1) {
     throw new Error(

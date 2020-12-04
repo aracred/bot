@@ -23,12 +23,25 @@ const filterAccount = (obj, targetUserDiscordID) => {
   return false
 }
 
+const getDiscordID = (targetParameter) => {
+  // Parse the targetParameter
+  // desktop/web user if starts with <@! and ends with >
+  // mobile user if starts with <@ and ends with >
+  if (targetParameter.startsWith('<@!') && targetParameter.endsWith('>')) {
+    return targetParameter.slice(3, targetParameter.length - 1)
+  } else if (targetParameter.startsWith('<@') && targetParameter.endsWith('>')) {
+    return targetParameter.slice(2, targetParameter.length - 1)
+  } else {
+    throw new Error('Wrong argument for target parameter')
+  }
+}
+
 const scoreFind = async (message) => {
   try {
     // Parse message.content to get the targeted user
     const targetParameter = parseMyCred(message.content)
     // Remove the first characters <@! and the last > to get the Discord ID
-    const targetUserDiscordID = targetParameter.slice(3, targetParameter.length - 1)
+    const targetUserDiscordID = getDiscordID(targetParameter)
     if (isNaN(targetUserDiscordID)) {
       return message.reply(
         'You must tag a user to use this command, try `!ac xp @your-discord-username` or `!ac help` if you need help',
@@ -42,11 +55,11 @@ const scoreFind = async (message) => {
     ).json()
     const accounts = credAccounts.accounts
     // Retrieve the Discord ID targeted
-    const userIndex = accounts.findIndex(account => filterAccount(account, targetUserDiscordID))
-    if (userIndex > -1) {
-      const userTotalCred = accounts[userIndex].totalCred
-      const lengthArray = accounts[userIndex].cred.length
-      const userWeeklyCred = accounts[userIndex].cred
+    const user = accounts.find(account => filterAccount(account, targetUserDiscordID))
+    if (user !== undefined) {
+      const userTotalCred = user.totalCred
+      const lengthArray = user.cred.length
+      const userWeeklyCred = user.cred
       const variation =
         (100 *
           (userWeeklyCred[lengthArray - 1] - userWeeklyCred[lengthArray - 2])) /

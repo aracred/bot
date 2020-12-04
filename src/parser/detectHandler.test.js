@@ -7,7 +7,7 @@ describe('detectHandler', () => {
   })
 
   test('it should properly parse xp command', () => {
-    expect(detectHandler('!ac xp username')).toEqual(handlers.get('xp'))
+    expect(detectHandler('!xp username')).toEqual(handlers.get('xp'))
   })
 
   test('it should ignore empty strings', () => {

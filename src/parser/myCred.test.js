@@ -8,12 +8,12 @@ describe('mycred handler tests', () => {
     expect(() => parseMyCred('')).toThrow(/empty/))
 
   test('It should error if not enough arguments are provided', () =>
-    expect(() => parseMyCred ('!ac mycred')).toThrow(/arguments/))
+    expect(() => parseMyCred ('!xp')).toThrow(/arguments/))
 
   test('It should properly pass a well formed message', () =>
     expect(
       parseMyCred(
-        '!ac xp myname(discord)',
+        '!xp myname(discord)',
       ),
     ).toEqual('myname(discord)'))
 })
