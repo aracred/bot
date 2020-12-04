@@ -11,6 +11,10 @@ Available AracredBot commands:
 
 > !ac signup github/foo discourse/foo
 
+- !xp @discord-username → Returns XP for a registered Discord User from the XP Ledger
+
+> !xp @discord-username
+
 `
 
 module.exports = function help(message) {

@@ -6,6 +6,10 @@ describe('detectHandler', () => {
     expect(detectHandler('!ac signup')).toEqual(handlers.get('signup'))
   })
 
+  test('it should properly parse xp command', () => {
+    expect(detectHandler('!xp username')).toEqual(handlers.get('xp'))
+  })
+
   test('it should ignore empty strings', () => {
     expect(detectHandler('')).toEqual(undefined)
   })

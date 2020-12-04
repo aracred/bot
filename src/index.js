@@ -20,7 +20,7 @@ client.on('ready', () => {
   log(`Bot successfully started as ${client.user.tag} 🦅`)
 })
 
-client.on('message', message => {
+client.on('message', (message) => {
   if (message.author.bot) {
     return
   }
@@ -54,4 +54,4 @@ client.on('message', message => {
   }
 })
 
-client.login(process.env.DISCORD_API_TOKEN)
+client.login(environment('DISCORD_API_TOKEN'))
