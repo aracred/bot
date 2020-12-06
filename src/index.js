@@ -44,7 +44,9 @@ client.on('messageReactionAdd', async (reaction, user) => {
     (message.author.id === user.id &&
       message.author.id !== '324631108731928587' &&
       message.author.id !== '235148962103951360') ||
-    !rMember.roles.cache.find(r => r.name === 'Verified' || r.name === 'Team')
+    !rMember.roles.cache.find(
+      r => r.name === 'Verified' || r.name === 'Team' || r.name === 'Bot',
+    )
   ) {
     // Remove the user's reaction
     reaction.users.remove(user.id)
