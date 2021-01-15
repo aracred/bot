@@ -5,6 +5,14 @@ const { environment } = require('../environment')
 const MessageEmbed = require('discord.js').MessageEmbed
 const NodeAddress = require('../sourcecred-utils')
 
+const filterMultipleDiscordAccounts = (discordAccount, targetUserDiscordID) => {
+  const discordId = NodeAddress.toParts(discordAccount.address)[4]
+  if (discordId === targetUserDiscordID) {
+    return discordId
+  }
+  return undefined
+}
+
 const filterAccount = (obj, targetUserDiscordID) => {
   // Ignore if the target isn't a USER
   if (obj.account.identity.subtype !== 'USER') return false
@@ -13,10 +21,10 @@ const filterAccount = (obj, targetUserDiscordID) => {
       const parts = NodeAddress.toParts(alias.address)
       return parts.indexOf('discord') > 0
     })
-  if (discordAlias.length === 1) {
+  if (discordAlias.length >= 1) {
     // Retrieve the Discord ID
-    const discordId = NodeAddress.toParts(discordAlias[0].address)[4]
-    if (discordId === targetUserDiscordID) {
+    const discordId = discordAlias.find(discordAccount => filterMultipleDiscordAccounts(discordAccount, targetUserDiscordID))
+    if (discordId !== undefined){
       return obj
     }
   }
