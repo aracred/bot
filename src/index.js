@@ -44,6 +44,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
     (message.author.id === user.id &&
       message.author.id !== '324631108731928587' &&
       message.author.id !== '235148962103951360' &&
+      message.author.id !== '617037497574359050' && //tip.cc
       message.author.id !== '759128312030691328') ||
     !rMember.roles.cache.find(
       r => r.name === 'Particles' || r.name === 'Team' || r.name === 'Bot',
