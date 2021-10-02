@@ -1,13 +1,13 @@
-const addAddressHandler = require('./addAddress')
+// const addAddressHandler = require('./addAddress')
 const helpHandler = require('./help')
 const signupHandler = require('./signup')
-const xpHandler = require('./xp')
+// const xpHandler = require('./xp')
 
 const handlers = new Map([
-  ['addaddress', addAddressHandler],
+  // ['addaddress', addAddressHandler],
   ['help', helpHandler],
   ['signup', signupHandler],
-  ['xp', xpHandler],
+  //['xp', xpHandler],
 ])
 
 module.exports = handlers
